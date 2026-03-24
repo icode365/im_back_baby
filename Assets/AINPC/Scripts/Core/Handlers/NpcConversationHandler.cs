@@ -3,32 +3,35 @@ using AINPC.Scripts.AI;
 using AINPC.Scripts.Core.AI.Interfaces;
 using UnityEngine;
 
-public class NpcConversationHandler : MonoBehaviour
+namespace AINPC.Scripts.Core.Handlers
 {
-    [SerializeField] private UIEventHandler _uiEventHandler = null;
-
-    [SerializeField] private ILLMService _llmService = null;
-
-    private void Start()
+    public class NpcConversationHandler : MonoBehaviour
     {
-        _uiEventHandler.OnSendEvent.AddListener((m) => SendMessage(m));
+        [SerializeField] private UIEventHandler _uiEventHandler = null;
 
-        _llmService = new Gemini();
-    }
+        private ILLMService _llmService = null;
 
-    private async void SendMessage(string message)
-    {
-        try
+        private void Start()
         {
-            Debug.Log("Input Message : " + message);
-            var response = await _llmService.GetResponse(message);
+            _uiEventHandler.OnSendEvent.AddListener((m) => SendMessage(m));
 
-            Debug.Log("Response : " + response);
+            _llmService = new GeminiAIService();
         }
-        catch (Exception e)
+
+        private async void SendMessage(string message)
         {
-            Debug.LogError(e.StackTrace);
-            throw;
+            try
+            {
+                Debug.Log("Input Message : " + message);
+                var response = await _llmService.GetResponseAsync(message);
+
+                Debug.Log("Response : " + response);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.StackTrace);
+                throw;
+            }
         }
     }
 }
