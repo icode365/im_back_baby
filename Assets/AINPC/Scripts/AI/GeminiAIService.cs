@@ -10,7 +10,7 @@ using UnityEngine.Networking;
 
 namespace AINPC.Scripts.AI
 {
-    public class Gemini : ILLMService
+    public class GeminiAIService : ILLMService
     {
         #region Gemini AI Class
 
@@ -55,13 +55,19 @@ namespace AINPC.Scripts.AI
         private GeminiAICreds _geminiAICreds = new();
         public UnityEvent<string> OnResponseReceived = new();
 
-        public async Task<string> GetResponse(string prompt)
+        public async Task<APIResult> GetResponseAsync(string prompt)
         {
+            APIResult apiResult = new();
+            
             // TODO : handle this better, maybe initialize if null
             if (_geminiAICreds == null)
             {
                 Debug.LogError("Error Gemini API Creds are unavailable.");
-                return null;
+                
+                apiResult.Error = "Error Gemini API Creds are unavailable.";
+                apiResult.Status = EAPIStatus.Error;
+                
+                return apiResult;
             }
 
             Debug.Log("Prompt Received : " + prompt);
@@ -99,6 +105,7 @@ namespace AINPC.Scripts.AI
 
                 while (!operation.isDone)
                 {
+                    apiResult.Status = EAPIStatus.Processing;
                     await Task.Yield();
                 }
 
@@ -106,7 +113,11 @@ namespace AINPC.Scripts.AI
                 {
                     Debug.LogError("Request Returned : " + request.error + request.responseCode);
                     OnResponseReceived?.Invoke(request.error);
-                    return $"Error : {request.error}";
+                    
+                    apiResult.Error = request.error;
+                    apiResult.Status = EAPIStatus.Error;
+                    
+                    return apiResult;
                 }
 
                 try
@@ -125,7 +136,10 @@ namespace AINPC.Scripts.AI
                     }
 
                     OnResponseReceived.Invoke(results);
-                    return results;
+                    apiResult.Response = results;
+                    apiResult.Status = EAPIStatus.Success;
+                    
+                    return apiResult;
                 }
                 catch (Exception e)
                 {
