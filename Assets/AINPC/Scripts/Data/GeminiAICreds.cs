@@ -5,6 +5,6 @@ namespace AINPC.Scripts.Data
     [CreateAssetMenu(fileName = "GeminiAICreds", menuName = "Scriptable Objects/GeminiAICreds")]
     public class GeminiAICreds : ScriptableObject
     {
-        public string apiKey = "AIzaSyAxdgdioaOCfbAyEu6yg8cL5BtXs-Y5a6c";
+        public string apiKey = string.Empty;
     }
 }
