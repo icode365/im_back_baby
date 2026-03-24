@@ -1,0 +1,11 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+/Assets/Resources/
+# Rider ignored files
+/.idea.ImBackBaby.iml
+/contentModel.xml
+/projectSettingsUpdater.xml
+/modules.xml
+# Editor-based HTTP Client requests
+/httpRequests/
