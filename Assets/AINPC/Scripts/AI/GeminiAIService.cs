@@ -52,22 +52,27 @@ namespace AINPC.Scripts.AI
 
         #endregion
 
-        private GeminiAICreds _geminiAICreds = new();
+        private GeminiAISetting _geminiAISetting = null;
         public UnityEvent<string> OnResponseReceived = new();
 
         public async Task<APIResult> GetResponseAsync(string prompt)
         {
             APIResult apiResult = new();
-            
+
             // TODO : handle this better, maybe initialize if null
-            if (_geminiAICreds == null)
+            if (_geminiAISetting == null)
             {
-                Debug.LogError("Error Gemini API Creds are unavailable.");
-                
-                apiResult.Error = "Error Gemini API Creds are unavailable.";
-                apiResult.Status = EAPIStatus.Error;
-                
-                return apiResult;
+                _geminiAISetting = Resources.Load("Data/GeminiAICreds") as GeminiAISetting;
+
+                if (_geminiAISetting == null)
+                {
+                    Debug.LogError("Error Gemini API Creds are unavailable.");
+
+                    apiResult.Error = "Error Gemini API Creds are unavailable.";
+                    apiResult.Status = EAPIStatus.Error;
+
+                    return apiResult;
+                }
             }
 
             Debug.Log("Prompt Received : " + prompt);
@@ -99,7 +104,7 @@ namespace AINPC.Scripts.AI
                 request.uploadHandler = new UploadHandlerRaw(jsonRaw);
                 request.downloadHandler = new DownloadHandlerBuffer();
                 request.SetRequestHeader("Content-type", "application/json");
-                request.SetRequestHeader("X-goog-api-key", _geminiAICreds.apiKey);
+                request.SetRequestHeader("X-goog-api-key", _geminiAISetting.apiKey);
 
                 var operation = request.SendWebRequest();
 
@@ -113,10 +118,10 @@ namespace AINPC.Scripts.AI
                 {
                     Debug.LogError("Request Returned : " + request.error + request.responseCode);
                     OnResponseReceived?.Invoke(request.error);
-                    
+
                     apiResult.Error = request.error;
                     apiResult.Status = EAPIStatus.Error;
-                    
+
                     return apiResult;
                 }
 
@@ -138,7 +143,7 @@ namespace AINPC.Scripts.AI
                     OnResponseReceived.Invoke(results);
                     apiResult.Response = results;
                     apiResult.Status = EAPIStatus.Success;
-                    
+
                     return apiResult;
                 }
                 catch (Exception e)

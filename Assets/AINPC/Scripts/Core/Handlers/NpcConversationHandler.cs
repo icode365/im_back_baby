@@ -14,8 +14,11 @@ namespace AINPC.Scripts.Core.Handlers
         private void Start()
         {
             _uiEventHandler.OnSendEvent.AddListener((m) => SendMessage(m));
+        }
 
-            _llmService = new GeminiAIService();
+        public void Initialize(ILLMService llmService)
+        {
+            _llmService = llmService;
         }
 
         private async void SendMessage(string message)
@@ -23,9 +26,9 @@ namespace AINPC.Scripts.Core.Handlers
             try
             {
                 Debug.Log("Input Message : " + message);
-                var response = await _llmService.GetResponseAsync(message);
+                var apiResult = await _llmService.GetResponseAsync(message);
 
-                Debug.Log("Response : " + response);
+                Debug.Log("Response : " + apiResult.Response);
             }
             catch (Exception e)
             {
