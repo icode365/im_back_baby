@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using AINPC.Scripts.Core.AI.Interfaces;
 using AINPC.Scripts.Core.Handlers;
 using AINPC.Scripts.Core.State;
@@ -25,7 +26,27 @@ namespace AINPC.Scripts.Core.Bootstrapper
             ILLMService service = serviceFactory.InitializeService();
             npcConversationHandler.Initialize(service);
             
-            uiEventHandler.
+            uiEventHandler.SendButtonOnClick += SendPrompt ;
+        }
+
+        // TODO : Check if Fire&Forget is the optimal way here?
+        private void SendPrompt()
+        {
+            _ = SendPromptAsync();
+        }
+        
+        private async Task SendPromptAsync()
+        {
+            var userPrompt = GetUserPrompt();
+            var npcResponse = await npcConversationHandler.SendPrompt(userPrompt);
+            
+            // TODO: Show in front-end
+            Debug.Log($"Response : {npcResponse.Response}");
+        }
+
+        private string GetUserPrompt()
+        {
+            return uiEventHandler.PromptInputField.text;
         }
     }
 }

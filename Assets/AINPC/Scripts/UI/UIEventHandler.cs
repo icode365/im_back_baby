@@ -5,32 +5,19 @@ using UnityEngine.UI;
 
 public class UIEventHandler : MonoBehaviour
 {
-    [SerializeField] private Button sendButton = null;
-    [SerializeField] private InputField inputField = null;
+    [feild: SerializeField] public Button PromptSendButton { get; private set; }
+    [feild: SerializeField] public InputField PromptInputField { get; private set; }
 
-    public UnityEvent<string> OnSendEvent { get; private set; } = new();
-    
+    public event Action SendButtonOnClick;
+
     private void Start()
     {
-        if (sendButton == null)
+        if (PromptSendButton == null)
         {
             Debug.LogError("sendButton is null.");
+            return;
         }
-        else
-        {
-            MapEventButton(sendButton, OnSend);
-        }
-    }
-
-    private void MapEventButton(Button button, Action onInteracted)
-    {
-        button.onClick.AddListener(() => onInteracted?.Invoke());
-    }
-
-    private void OnSend()
-    {
-        string userInput = inputField.text;
-        Debug.Log("Send Clicked");
-        OnSendEvent?.Invoke(userInput);
+        
+        PromptSendButton.onClick.AddListener(() => SendButtonOnClick?.Invoke());
     }
 }
