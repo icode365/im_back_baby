@@ -1,4 +1,6 @@
+using System.Linq;
 using System.Threading.Tasks;
+using AINPC.Scripts.Character;
 using AINPC.Scripts.Core.AI.Interfaces;
 using AINPC.Scripts.Core.Handlers;
 using AINPC.Scripts.Core.State;
@@ -11,6 +13,7 @@ namespace AINPC.Scripts.Core.Bootstrapper
     {
         [SerializeField] private NpcConversationHandler npcConversationHandler;
         [SerializeField] private UIEventHandler uiEventHandler;
+        [SerializeField] private PersonalityHandler personaHandler;
 
         private EGameState gameState = EGameState.Idle;
 
@@ -26,6 +29,7 @@ namespace AINPC.Scripts.Core.Bootstrapper
         }
 
         private void InitializeHandlers()
+        // TODO : Add personalityHandler 
         {
             serviceFactory = new();
             ILLMService service = serviceFactory.InitializeLlmService();
@@ -34,6 +38,13 @@ namespace AINPC.Scripts.Core.Bootstrapper
             _service = serviceFactory.InitializeTTSService();
 
             uiEventHandler.SendButtonOnClick += SendPrompt;
+            uiEventHandler.OnPersonaDropdownchanged += ChangeCurrentPersona;
+            uiEventHandler.PopulatePersonalityDropdown(personaHandler.GetAvailablePersonaNames());
+        }
+
+        private void ChangeCurrentPersona(string name)
+        {
+            personaHandler.SetCurrentPersona(name);
         }
 
         // TODO : Check if Fire&Forget is the optimal way here?
@@ -45,7 +56,8 @@ namespace AINPC.Scripts.Core.Bootstrapper
         private async Task SendPromptAsync()
         {
             var userPrompt = GetUserPrompt();
-            var npcResponse = await npcConversationHandler.SendPrompt(userPrompt);
+            var systemInstruction = GetSystemInstruction();
+            var npcResponse = await npcConversationHandler.SendPrompt(userPrompt, systemInstruction);
 
             // TODO: Show in front-end
             Debug.Log($"Response : {npcResponse.response}");
@@ -62,6 +74,11 @@ namespace AINPC.Scripts.Core.Bootstrapper
             {
                 Debug.LogError($"Audio playback failed: {audioResponse.error}");
             }
+        }
+
+        private string GetSystemInstruction()
+        {
+            return personaHandler.BuildPersonaPrompt();
         }
 
         private string GetUserPrompt()
