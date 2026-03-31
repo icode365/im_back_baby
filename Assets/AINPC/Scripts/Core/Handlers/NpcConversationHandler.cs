@@ -15,7 +15,7 @@ namespace AINPC.Scripts.Core.Handlers
             _llmService = llmService;
         }
 
-        public async Task<ApiResponse> SendPrompt(string prompt)
+        public async Task<ApiResponse> SendPrompt(string prompt, string systemInfo)
         {
             ApiResponse apiResponse = new();
 
@@ -43,7 +43,7 @@ namespace AINPC.Scripts.Core.Handlers
             try
             {
                 Debug.Log("Input Message : " + prompt);
-                apiResponse = await _llmService.GetResponseAsync(prompt);
+                apiResponse = await _llmService.GetResponseAsync(prompt, systemInfo);
 
                 Debug.Log("Response : " + apiResponse.response);
                 return apiResponse;

@@ -67,38 +67,13 @@ namespace AINPC.Scripts.AI
             _aiSetting = aiSetting;
         }
 
-        public async Task<ApiResponse> GetResponseAsync(string prompt)
+        public async Task<ApiResponse> GetResponseAsync(string prompt, string systemInstruction)
         {
             ApiResponse apiResponse = new();
 
             Debug.Log("Prompt Received : " + prompt);
 
-            var requestBody = new GeminiRequest
-            {
-                system_instruction = new SystemInstruction()
-                {
-                    parts = new List<Part>
-                    {
-                        new Part
-                        {
-                            text = "Respond in one line only. Keep the answer short to medium length. Do not add extra lines or explanations."
-                        }
-                    }
-                },
-                contents = new List<Content>
-                {
-                new Content
-                {
-                parts = new List<Part>
-                {
-                new Part
-                {
-                text = prompt
-            }
-            }
-            }
-            }
-            };
+            var requestBody = BuildRequestBody(prompt, systemInstruction);
 
             string jsonBody = JsonUtility.ToJson(requestBody);
             // TODO : Use the GeminiAISetting.ModelCode for flexibility
@@ -160,6 +135,36 @@ namespace AINPC.Scripts.AI
                     throw;
                 }
             }
+        }
+
+        private GeminiRequest BuildRequestBody(string prompt, string systemInstruction)
+        {
+            return new GeminiRequest
+            {
+                system_instruction = new SystemInstruction()
+                {
+                    parts = new List<Part>
+                    {
+                        new Part
+                        {
+                            text = systemInstruction
+                        }
+                    }
+                },
+                contents = new List<Content>
+                {
+                    new Content
+                    {
+                        parts = new List<Part>
+                        {
+                            new Part
+                            {
+                                text = prompt
+                            }
+                        }
+                    }
+                }
+            };
         }
     }
 }
