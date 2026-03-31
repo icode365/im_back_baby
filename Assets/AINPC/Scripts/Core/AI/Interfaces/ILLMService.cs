@@ -6,6 +6,6 @@ namespace AINPC.Scripts.Core.AI.Interfaces
 {
     public interface ILLMService
     {
-        public Task<APIResult> GetResponseAsync(string prompt);
+        public Task<ApiResponse> GetResponseAsync(string prompt);
     }
 }

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f0532e1dbd92df448cdf8925b362e5d, type: 3}
   m_Name: GeminiAICreds
   m_EditorClassIdentifier: Assembly-CSharp::AINPC.Scripts.Data.GeminiAICreds
-  apiKey: AIzaSyAxdgdioaOCfbAyEu6yg8cL5BtXs-Y5a6c
+  apiKey: AIzaSyDNMuOMAP7lL5ed91LzK9DxRenxr9YnR10

@@ -10,14 +10,21 @@ using UnityEngine.Networking;
 
 namespace AINPC.Scripts.AI
 {
-    public class GeminiAIService : ILLMService
+    public class Gemini_2_5_FlashLite_Service : ILLMService
     {
         #region Gemini AI Class
 
         [Serializable]
         private class GeminiRequest
         {
+            public SystemInstruction system_instruction;
             public List<Content> contents;
+        }
+
+        [Serializable]
+        private class SystemInstruction
+        {
+            public List<Part> parts;
         }
 
         [Serializable]
@@ -52,50 +59,51 @@ namespace AINPC.Scripts.AI
 
         #endregion
 
-        private GeminiAISetting _geminiAISetting = null;
+        private AiSetting _aiSetting = null;
         public UnityEvent<string> OnResponseReceived = new();
 
-        public async Task<APIResult> GetResponseAsync(string prompt)
+        public void Initialize(AiSetting aiSetting)
         {
-            APIResult apiResult = new();
+            _aiSetting = aiSetting;
+        }
 
-            // TODO : handle this better, maybe initialize if null
-            if (_geminiAISetting == null)
-            {
-                _geminiAISetting = Resources.Load("Data/GeminiAICreds") as GeminiAISetting;
-
-                if (_geminiAISetting == null)
-                {
-                    Debug.LogError("Error Gemini API Creds are unavailable.");
-
-                    apiResult.Error = "Error Gemini API Creds are unavailable.";
-                    apiResult.Status = EAPIStatus.Error;
-
-                    return apiResult;
-                }
-            }
+        public async Task<ApiResponse> GetResponseAsync(string prompt)
+        {
+            ApiResponse apiResponse = new();
 
             Debug.Log("Prompt Received : " + prompt);
 
             var requestBody = new GeminiRequest
             {
-                contents = new List<Content>
+                system_instruction = new SystemInstruction()
                 {
-                    new Content
+                    parts = new List<Part>
                     {
-                        parts = new List<Part>
+                        new Part
                         {
-                            new Part
-                            {
-                                text = prompt
-                            }
+                            text = "Respond in one line only. Keep the answer short to medium length. Do not add extra lines or explanations."
                         }
                     }
-                }
+                },
+                contents = new List<Content>
+                {
+                new Content
+                {
+                parts = new List<Part>
+                {
+                new Part
+                {
+                text = prompt
+            }
+            }
+            }
+            }
             };
 
             string jsonBody = JsonUtility.ToJson(requestBody);
-            string url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";
+            // TODO : Use the GeminiAISetting.ModelCode for flexibility
+            string url =
+                "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent";
 
             using (var request = new UnityWebRequest(url, "POST"))
             {
@@ -104,13 +112,13 @@ namespace AINPC.Scripts.AI
                 request.uploadHandler = new UploadHandlerRaw(jsonRaw);
                 request.downloadHandler = new DownloadHandlerBuffer();
                 request.SetRequestHeader("Content-type", "application/json");
-                request.SetRequestHeader("X-goog-api-key", _geminiAISetting.apiKey);
+                request.SetRequestHeader("X-goog-api-key", _aiSetting.apiKey);
 
                 var operation = request.SendWebRequest();
 
                 while (!operation.isDone)
                 {
-                    apiResult.Status = EAPIStatus.Processing;
+                    apiResponse.status = EAPIStatus.Processing;
                     await Task.Yield();
                 }
 
@@ -119,10 +127,10 @@ namespace AINPC.Scripts.AI
                     Debug.LogError("Request Returned : " + request.error + request.responseCode);
                     OnResponseReceived?.Invoke(request.error);
 
-                    apiResult.Error = request.error;
-                    apiResult.Status = EAPIStatus.Error;
+                    apiResponse.error = request.error;
+                    apiResponse.status = EAPIStatus.Error;
 
-                    return apiResult;
+                    return apiResponse;
                 }
 
                 try
@@ -141,10 +149,10 @@ namespace AINPC.Scripts.AI
                     }
 
                     OnResponseReceived.Invoke(results);
-                    apiResult.Response = results;
-                    apiResult.Status = EAPIStatus.Success;
+                    apiResponse.response = results;
+                    apiResponse.status = EAPIStatus.Success;
 
-                    return apiResult;
+                    return apiResponse;
                 }
                 catch (Exception e)
                 {

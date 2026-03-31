@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class UIEventHandler : MonoBehaviour
 {
-    [feild: SerializeField] public Button PromptSendButton { get; private set; }
-    [feild: SerializeField] public InputField PromptInputField { get; private set; }
+    [SerializeField] public Button PromptSendButton;
+    [SerializeField] public InputField PromptInputField;
 
     public event Action SendButtonOnClick;
 

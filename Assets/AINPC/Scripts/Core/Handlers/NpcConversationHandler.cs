@@ -10,55 +10,51 @@ namespace AINPC.Scripts.Core.Handlers
     {
         private ILLMService _llmService = null;
 
-        private void Start()
-        {
-        }
-
         public void Initialize(ILLMService llmService)
         {
             _llmService = llmService;
         }
 
-        public async Task<APIResult> SendPrompt(string prompt)
+        public async Task<ApiResponse> SendPrompt(string prompt)
         {
-            APIResult apiResult = new();
+            ApiResponse apiResponse = new();
 
             if (_llmService == null)
             {
                 Debug.LogError($"LLM Service is NULL.");
 
                 // TODO : How can we set the object variables and return instead of duplication of the following 2 lines 
-                apiResult.Error = "LLM Service is NULL.";
-                apiResult.Status = EAPIStatus.Error;
+                apiResponse.error = "LLM Service is NULL.";
+                apiResponse.status = EAPIStatus.Error;
 
-                return apiResult;
+                return apiResponse;
             }
 
             if (string.IsNullOrEmpty(prompt))
             {
                 Debug.LogError($"User Prompt is NULL or empty.");
 
-                apiResult.Error = "User Prompt is NULL or empty.";
-                apiResult.Status = EAPIStatus.Error;
+                apiResponse.error = "User Prompt is NULL or empty.";
+                apiResponse.status = EAPIStatus.Error;
 
-                return apiResult;
+                return apiResponse;
             }
 
             try
             {
                 Debug.Log("Input Message : " + prompt);
-                apiResult = await _llmService.GetResponseAsync(prompt);
+                apiResponse = await _llmService.GetResponseAsync(prompt);
 
-                Debug.Log("Response : " + apiResult.Response);
-                return apiResult;
+                Debug.Log("Response : " + apiResponse.response);
+                return apiResponse;
             }
             catch (Exception e)
             {
                 Debug.LogError(e.StackTrace);
-                apiResult.Error = e.Message;
-                apiResult.Status = EAPIStatus.Error;
+                apiResponse.error = e.Message;
+                apiResponse.status = EAPIStatus.Error;
 
-                return apiResult;
+                return apiResponse;
                 throw;
             }
         }
