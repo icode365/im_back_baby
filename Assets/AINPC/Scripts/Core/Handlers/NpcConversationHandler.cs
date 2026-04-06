@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using AINPC.Scripts.Core.AI.Interfaces;
 using AINPC.Scripts.Data;
+using AINPC.Scripts.UI;
 using UnityEngine;
 
 namespace AINPC.Scripts.Core.Handlers

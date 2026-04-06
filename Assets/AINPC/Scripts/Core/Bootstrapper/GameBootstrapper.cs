@@ -5,6 +5,7 @@ using AINPC.Scripts.Core.AI.Interfaces;
 using AINPC.Scripts.Core.Handlers;
 using AINPC.Scripts.Core.State;
 using AINPC.Scripts.Data;
+using AINPC.Scripts.UI;
 using UnityEngine;
 
 namespace AINPC.Scripts.Core.Bootstrapper
@@ -14,6 +15,7 @@ namespace AINPC.Scripts.Core.Bootstrapper
         [SerializeField] private NpcConversationHandler npcConversationHandler;
         [SerializeField] private UIEventHandler uiEventHandler;
         [SerializeField] private PersonalityHandler personaHandler;
+        [SerializeField] private NpcConversationUiHandler conversationUiHandler;
 
         private EGameState gameState = EGameState.Idle;
 
@@ -38,6 +40,8 @@ namespace AINPC.Scripts.Core.Bootstrapper
 
             uiEventHandler.SendButtonOnClick += SendPrompt;
             uiEventHandler.OnPersonaDropdownChanged += ChangeCurrentPersona;
+            uiEventHandler.ClearPromptOnClick += conversationUiHandler.ClearPromptInputField;
+            
             uiEventHandler.PopulatePersonalityDropdown(personaHandler.GetAvailablePersonaNames());
         }
 
@@ -60,9 +64,9 @@ namespace AINPC.Scripts.Core.Bootstrapper
 
             // TODO: Show in front-end
             Debug.Log($"Response : {npcResponse.response}");
-            //var audioResponse = await _service.RequestAudioFor(npcResponse.response);
+            var audioResponse = await _service.RequestAudioFor(npcResponse.response);
 
-            // Debug.Log($"Response : {audioResponse.status} | {audioResponse.response}");
+            Debug.Log($"Response : {audioResponse.status} | {audioResponse.response}");
 
             if (npcResponse.status == EAPIStatus.Success)
             {
@@ -82,7 +86,7 @@ namespace AINPC.Scripts.Core.Bootstrapper
 
         private string GetUserPrompt()
         {
-            return uiEventHandler.PromptInputField.text;
+            return uiEventHandler.GetInputFieldText();
         }
     }
 }
