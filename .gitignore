@@ -64,6 +64,12 @@ ExportedObj/
 # Unity3D generated file on crash reports
 sysinfo.txt
 
+# Local Configuration (Keys/API secrets)
+*.key
+*.key.meta
+local_settings.json
+local_settings.json.meta
+
 # Mono auto generated files
 mono_crash.*
 

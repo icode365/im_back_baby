@@ -13,7 +13,7 @@ public class UIEventHandler : MonoBehaviour
     [SerializeField] private PersonalityDropdownHandler personalityDropdownHandler;
 
     public event Action SendButtonOnClick;
-    public event Action<string> OnPersonaDropdownchanged;
+    public event Action<string> OnPersonaDropdownChanged;
 
     private void Start()
     {
@@ -24,7 +24,7 @@ public class UIEventHandler : MonoBehaviour
         }
         
         PromptSendButton.onClick.AddListener(() => SendButtonOnClick?.Invoke());
-        personalityDropdownHandler.onPersonaChanged += OnPersonaDropdownchanged;
+        personalityDropdownHandler.onPersonaChanged += OnPersonaDropdownChanged;
     }
 
     public void PopulatePersonalityDropdown(List<string> personasNames)

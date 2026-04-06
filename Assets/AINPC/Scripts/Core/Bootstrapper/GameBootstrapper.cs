@@ -29,7 +29,6 @@ namespace AINPC.Scripts.Core.Bootstrapper
         }
 
         private void InitializeHandlers()
-        // TODO : Add personalityHandler 
         {
             serviceFactory = new();
             ILLMService service = serviceFactory.InitializeLlmService();
@@ -38,7 +37,7 @@ namespace AINPC.Scripts.Core.Bootstrapper
             _service = serviceFactory.InitializeTTSService();
 
             uiEventHandler.SendButtonOnClick += SendPrompt;
-            uiEventHandler.OnPersonaDropdownchanged += ChangeCurrentPersona;
+            uiEventHandler.OnPersonaDropdownChanged += ChangeCurrentPersona;
             uiEventHandler.PopulatePersonalityDropdown(personaHandler.GetAvailablePersonaNames());
         }
 
@@ -61,18 +60,18 @@ namespace AINPC.Scripts.Core.Bootstrapper
 
             // TODO: Show in front-end
             Debug.Log($"Response : {npcResponse.response}");
-            var audioResponse = await _service.RequestAudioFor(npcResponse.response);
+            //var audioResponse = await _service.RequestAudioFor(npcResponse.response);
 
-            Debug.Log($"Response : {audioResponse.status} | {audioResponse.response}");
+            // Debug.Log($"Response : {audioResponse.status} | {audioResponse.response}");
 
-            if (audioResponse.status == EAPIStatus.Success && audioResponse.responseObject is AudioClip clip)
+            if (npcResponse.status == EAPIStatus.Success)
             {
-                audioSource.clip = clip;
+                audioSource.clip = npcResponse.responseObject as AudioClip;
                 audioSource.Play();
             }
             else
             {
-                Debug.LogError($"Audio playback failed: {audioResponse.error}");
+                Debug.LogError($"Audio playback failed: {npcResponse.error}");
             }
         }
 

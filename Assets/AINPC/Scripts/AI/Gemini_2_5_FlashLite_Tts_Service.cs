@@ -158,7 +158,17 @@ namespace AINPC.Scripts.AI
                 request.uploadHandler = new UploadHandlerRaw(jsonRaw);
                 request.downloadHandler = new DownloadHandlerBuffer();
                 request.SetRequestHeader("Content-type", "application/json");
-                request.SetRequestHeader("X-goog-api-key", aiSetting.apiKey);
+
+                string apiKey = aiSetting.ApiKey;
+                if (string.IsNullOrEmpty(apiKey))
+                {
+                    Debug.LogError("[GeminiTtsService] API key is missing. Please set it in 'GeminiAICreds' asset or in 'gemini.key' file.");
+                    apiResponse.error = "Missing API Key";
+                    apiResponse.status = EAPIStatus.Error;
+                    return apiResponse;
+                }
+
+                request.SetRequestHeader("X-goog-api-key", apiKey);
 
                 var operation = request.SendWebRequest();
                 while (!operation.isDone)

@@ -9,6 +9,9 @@ namespace AINPC.Scripts.Character
     public class PersonalityHandler : MonoBehaviour
     {
         private PersonalityData currentPersonaData = null;
+        
+        [TextArea]
+        public string commonInstructions = "Respond strictly in character and in least possible words.";
 
         [SerializeField] private List<PersonalityData> availablePersonas = new();
 
@@ -22,10 +25,6 @@ namespace AINPC.Scripts.Character
             if (availablePersonas.Count > 0) 
                 currentPersonaData = availablePersonas[0];
         }
-
-        public PersonalityData GetCurrentPersona() => currentPersonaData;
-
-        public List<PersonalityData> GetAvailablePersonas() => availablePersonas;
 
         public List<string> GetAvailablePersonaNames() => availablePersonas.Select(p => p.npcName).ToList();
 
@@ -43,11 +42,12 @@ namespace AINPC.Scripts.Character
             currentPersonaData = GetPersonaDataFor(name);
         }
         
+        // TODO : Reduce cognitive complexity
         public string BuildPersonaPrompt()
         {
             if (currentPersonaData == null)
             {
-                return "Respond naturally and helpfully in very few words.";
+                return commonInstructions;
             }
 
             var sb = new StringBuilder();
@@ -98,7 +98,7 @@ namespace AINPC.Scripts.Character
             }
 
             sb.AppendLine();
-            sb.AppendLine("Stay in character and respond according to the personality above.");
+            sb.AppendLine(commonInstructions);
 
             return sb.ToString().Trim();
         }
