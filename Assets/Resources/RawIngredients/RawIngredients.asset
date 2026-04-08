@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4da520e11440740af660c1461badc6, type: 3}
+  m_Name: RawIngredients
+  m_EditorClassIdentifier: Assembly-CSharp::AINPC.Scripts.Core.Gameplay.ScriptableObjects.RawIngredients
+  rawIngredients:
+  - ingredientName: Ether-X
+    properties:
+    - Volatility, Diffusion
+  - ingredientName: Phosphor-M
+    properties:
+    - Heat, Glow
+  - ingredientName: Nitro-F
+    properties:
+    - Reactivity, Pressure
+  - ingredientName: Carbon-Dust
+    properties:
+    - Smoke, Density
+  - ingredientName: Aqua-Sol
+    properties:
+    - Cooling, Dilution
+  - ingredientName: Raisin-K
+    properties:
+    - Bindin, Stability
+  - ingredientName: Iron-Powder
+    properties:
+    - Energy, Charge
+  - ingredientName: Sulphuric-Ash
+    properties:
+    - Corrosion, Decay
