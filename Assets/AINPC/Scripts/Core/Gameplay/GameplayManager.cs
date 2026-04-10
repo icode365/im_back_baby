@@ -8,31 +8,61 @@ namespace AINPC.Scripts.Core.Gameplay
 {
     public class GameplayManager : MonoBehaviour
     {
-        // Start from Introduction panel
-        // Show welcome screen
-        // Introduction of Goal
-        // Intro of Conflict
-        // Intro of NPCs their limitations and constraints
-        // Start Gameplay
-        // Start the puzzle
-        // Show the NPC options
-        // User selects which NPC abilities to use
-        // User enters prompts to get the correct answers
-        // User enters the answer in the puzzle to open solve the puzzle
-
         public RawIngredients ingredients = null;
+
         public RawIngredientUiController rawIngUiController = null;
         public GameObject ingHorizontalContainer = null;
+        public RawIngredientSlot ingSlot = null;
+        public Transform slotParent = null;
 
         private RawIngredientUiController selectedIng = null;
         private RawIngredientSlot selectedSlot = null;
-        
+
         private void Start()
         {
-            ingredients.rawIngredients.ForEach(ing => SpawnRawIngSlot(ing));
+            ingredients.rawIngredients.ForEach(ing => SpawnRawIngredients(ing));
         }
 
-        private void SpawnRawIngSlot(RawIngredient ing)
+        private void SpawnRawIngSlots()
+        {
+            var newIngSlot = Instantiate(ingSlot, slotParent);
+            newIngSlot.Selected += HandleSlotSelected;
+            newIngSlot.Deselected += HandleSlotDeselected;
+        }
+
+        private void HandleSlotSelected(SelectableUi<RawIngredientSlot> selectedSlot)
+        {
+            var slot = selectedSlot as RawIngredientSlot;
+            if (slot == null)
+            {
+                return;
+            }
+
+            if (selectedSlot != null && selectedSlot != slot)
+            {
+                selectedSlot.Deselect();
+            }
+
+            selectedSlot = slot;
+            PostSelectionAssignment();
+        }
+
+        private void HandleSlotDeselected(SelectableUi<RawIngredientSlot> deselectedSlot)
+        {
+            var slot = deselectedSlot as RawIngredientSlot;
+            if (slot == null)
+            {
+                return;
+            }
+
+            if (selectedSlot == slot)
+            {
+                selectedSlot = null;
+            }
+        }
+
+
+        private void SpawnRawIngredients(RawIngredient ing)
         {
             var ingUi = Instantiate(rawIngUiController, ingHorizontalContainer.transform);
             ingUi.SetupRawIngUI(ing);
@@ -49,7 +79,12 @@ namespace AINPC.Scripts.Core.Gameplay
 
             selectedIng = newIng as RawIngredientUiController;
 
-            if (IsSlotSelected() && selectedIng)
+            PostSelectionAssignment();
+        }
+
+        private void PostSelectionAssignment()
+        {
+            if (IsSlotSelected() && IsIngSelected())
             {
                 AssignSelectedIngToSlot(selectedIng.RawIng);
             }
@@ -60,6 +95,8 @@ namespace AINPC.Scripts.Core.Gameplay
             return selectedSlot != null;
         }
 
+        private bool IsIngSelected() => selectedIng != null;
+        
         private void AssignSelectedIngToSlot(RawIngredient ing)
         {
             selectedSlot.AssignIngredient(ing);
