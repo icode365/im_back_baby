@@ -1,8 +1,7 @@
-using System;
-using System.Linq;
 using AINPC.Scripts.Core.Gameplay.Interfaces;
 using AINPC.Scripts.Core.Gameplay.ScriptableObjects;
 using AINPC.Scripts.Core.Gameplay.UI;
+using AINPC.Scripts.Core.Gameplay.UI.Base;
 using UnityEngine;
 
 namespace AINPC.Scripts.Core.Gameplay
@@ -41,16 +40,16 @@ namespace AINPC.Scripts.Core.Gameplay
             ingUi.Deselected += (m) => selectedIng = null;
         }
 
-        private void HandleRawIngSelected(RawIngredientUiController newIng)
+        private void HandleRawIngSelected(SelectableUi<RawIngredientUiController> newIng)
         {
             if (selectedIng)
             {
                 selectedIng.Deselect();
             }
 
-            selectedIng = newIng;
+            selectedIng = newIng as RawIngredientUiController;
 
-            if (IsSlotSelected())
+            if (IsSlotSelected() && selectedIng)
             {
                 AssignSelectedIngToSlot(selectedIng.RawIng);
             }

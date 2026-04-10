@@ -1,10 +1,11 @@
 using AINPC.Scripts.Core.Gameplay.Interfaces;
+using AINPC.Scripts.Core.Gameplay.UI.Base;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace AINPC.Scripts.Core.Gameplay.UI
 {
-    public class RawIngredientSlot : MonoBehaviour
+    public class RawIngredientSlot : SelectableUi<RawIngredientSlot>
     {
         public Image slotImage = null;
 
@@ -59,6 +60,7 @@ namespace AINPC.Scripts.Core.Gameplay.UI
         private void ToggleIsSelected()
         {
             IsSelected = !IsSelected;
+            
         }
 
         private void OnDestroy()
