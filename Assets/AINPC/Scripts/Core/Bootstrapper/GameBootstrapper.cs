@@ -1,9 +1,7 @@
-using System.Linq;
 using System.Threading.Tasks;
 using AINPC.Scripts.Character;
 using AINPC.Scripts.Core.AI.Interfaces;
 using AINPC.Scripts.Core.Handlers;
-using AINPC.Scripts.Core.State;
 using AINPC.Scripts.Data;
 using AINPC.Scripts.UI;
 using UnityEngine;
@@ -16,8 +14,6 @@ namespace AINPC.Scripts.Core.Bootstrapper
         [SerializeField] private UIEventHandler uiEventHandler;
         [SerializeField] private PersonalityHandler personaHandler;
         [SerializeField] private NpcConversationUiHandler conversationUiHandler;
-
-        private EGameState gameState = EGameState.Idle;
 
         // TODO : Just for testing, remove from here
         private ITtsService _service = null;

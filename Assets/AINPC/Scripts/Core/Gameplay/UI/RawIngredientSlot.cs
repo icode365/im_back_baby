@@ -8,22 +8,12 @@ namespace AINPC.Scripts.Core.Gameplay.UI
     public class RawIngredientSlot : SelectableUi<RawIngredientSlot>
     {
         public Image slotImage = null;
-
-        public bool IsSelected { get; private set; } = false;
         public RawIngredient AssignedIngredient { get; private set; } = null;
-
-        public Button btn;
 
         private void Awake()
         {
-            if (btn == null)
-            {
-                btn = GetComponent<Button>();
-            }
-
-            btn.onClick.RemoveListener(ToggleIsSelected);
-            btn.onClick.AddListener(ToggleIsSelected);
-
+            base.Awake();
+            
             if (slotImage == null)
             {
                 slotImage = GetComponent<Image>();

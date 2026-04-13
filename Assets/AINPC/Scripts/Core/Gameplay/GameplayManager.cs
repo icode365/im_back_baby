@@ -1,13 +1,16 @@
+using AINPC.Scripts.Core.Gameplay.Data;
 using AINPC.Scripts.Core.Gameplay.Interfaces;
 using AINPC.Scripts.Core.Gameplay.ScriptableObjects;
 using AINPC.Scripts.Core.Gameplay.UI;
 using AINPC.Scripts.Core.Gameplay.UI.Base;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AINPC.Scripts.Core.Gameplay
 {
     public class GameplayManager : MonoBehaviour
     {
+        private IValidator validator;
         public RawIngredients ingredients = null;
 
         public RawIngredientUiController rawIngUiController = null;
@@ -15,35 +18,47 @@ namespace AINPC.Scripts.Core.Gameplay
         public RawIngredientSlot ingSlot = null;
         public Transform slotParent = null;
 
-        private RawIngredientUiController selectedIng = null;
+        public PuzzleData _puzzleData;
+        public Button brew_Btn = null;
         private RawIngredientSlot selectedSlot = null;
+        private RawIngredientUiController selectedIng = null;
 
+        public void Init(IValidator _validator)
+        {
+            validator = _validator;
+        }
+        
         private void Start()
         {
             ingredients.rawIngredients.ForEach(ing => SpawnRawIngredients(ing));
+            _puzzleData.rawIngredients.ForEach(ing => SpawnRawIngSlot());
+            // brew_Btn.onClick.AddListener(validator.Validate());
         }
 
-        private void SpawnRawIngSlots()
+        private void SpawnRawIngSlot()
         {
             var newIngSlot = Instantiate(ingSlot, slotParent);
             newIngSlot.Selected += HandleSlotSelected;
             newIngSlot.Deselected += HandleSlotDeselected;
         }
 
-        private void HandleSlotSelected(SelectableUi<RawIngredientSlot> selectedSlot)
+        private void HandleSlotSelected(SelectableUi<RawIngredientSlot> _selectedSlot)
         {
-            var slot = selectedSlot as RawIngredientSlot;
+            var slot = _selectedSlot as RawIngredientSlot;
+            
+            Debug.Log("Selected Slot : " + slot.gameObject.GetInstanceID());
             if (slot == null)
             {
                 return;
             }
 
-            if (selectedSlot != null && selectedSlot != slot)
+            if (IsSlotSelected() && selectedSlot != slot)
             {
                 selectedSlot.Deselect();
             }
 
             selectedSlot = slot;
+            Debug.Log("Selected Slot : " + _selectedSlot.gameObject.GetInstanceID());
             PostSelectionAssignment();
         }
 
@@ -99,6 +114,7 @@ namespace AINPC.Scripts.Core.Gameplay
         
         private void AssignSelectedIngToSlot(RawIngredient ing)
         {
+            Debug.Log("Selected Slot : " + ing.ingredientName);
             selectedSlot.AssignIngredient(ing);
         }
     }
