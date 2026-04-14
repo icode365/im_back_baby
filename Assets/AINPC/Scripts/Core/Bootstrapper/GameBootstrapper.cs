@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using AINPC.Scripts.Character;
 using AINPC.Scripts.Core.AI.Interfaces;
+using AINPC.Scripts.Core.Gameplay;
 using AINPC.Scripts.Core.Handlers;
 using AINPC.Scripts.Data;
 using AINPC.Scripts.UI;
@@ -14,7 +15,8 @@ namespace AINPC.Scripts.Core.Bootstrapper
         [SerializeField] private UIEventHandler uiEventHandler;
         [SerializeField] private PersonalityHandler personaHandler;
         [SerializeField] private NpcConversationUiHandler conversationUiHandler;
-
+        [SerializeField] private GameplayManager gameplayManager;
+        
         // TODO : Just for testing, remove from here
         private ITtsService _service = null;
         public AudioSource audioSource = null;
@@ -31,6 +33,8 @@ namespace AINPC.Scripts.Core.Bootstrapper
             serviceFactory = new();
             ILLMService service = serviceFactory.InitializeLlmService();
             npcConversationHandler.Initialize(service);
+            
+            gameplayManager.Init(serviceFactory.GetValidator());
 
             _service = serviceFactory.InitializeTTSService();
 

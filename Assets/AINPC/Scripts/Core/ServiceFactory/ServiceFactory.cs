@@ -52,7 +52,7 @@ namespace AINPC.Scripts.Core.ServiceFactory
             return ttsService;
         }
 
-        public IValidator GetValitor()
+        public IValidator GetValidator()
         {
             return new SolutionValidator();
         }

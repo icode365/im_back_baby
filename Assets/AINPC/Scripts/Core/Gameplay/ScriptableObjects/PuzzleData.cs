@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using AINPC.Scripts.Core.Gameplay.Interfaces;
 using AINPC.Scripts.Core.Gameplay.ScriptableObjects;
+using UnityEngine.Serialization;
 
 namespace AINPC.Scripts.Core.Gameplay.Data
 {
@@ -14,6 +15,6 @@ namespace AINPC.Scripts.Core.Gameplay.Data
         public List<RawIngredient> rawIngredients = new();
         
         [TextArea(2, 5)]
-        public string resultDescription;
+        public string description;
     }
 }
