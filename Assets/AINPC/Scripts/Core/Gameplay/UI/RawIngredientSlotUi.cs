@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace AINPC.Scripts.Core.Gameplay.UI
 {
-    public class RawIngredientSlot : SelectableUi<RawIngredientSlot>
+    public class RawIngredientSlotUi : SelectableUi<RawIngredientSlotUi>
     {
         public Image slotImage = null;
         public RawIngredient AssignedIngredient { get; private set; } = null;

@@ -10,7 +10,7 @@ namespace AINPC.Scripts.Core.Gameplay.Data
     public class PuzzleData : ScriptableObject
     {
         public string puzzleName;
-        public RawIngredients Ingredients;
+        public RawIngredientsData ingredientsData;
 
         public List<RawIngredient> rawIngredients = new();
         

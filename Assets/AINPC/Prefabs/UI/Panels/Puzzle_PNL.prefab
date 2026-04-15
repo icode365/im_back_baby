@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1621174962468655218}
   - component: {fileID: 2643493712954480624}
   m_Layer: 5
-  m_Name: Puzzle_Title_Text
+  m_Name: PuzzleName_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.0077691847, g: 0.6603774, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -268,6 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2400510829151846422}
   - component: {fileID: 8687235901472799513}
+  - component: {fileID: 4797416867502838054}
   m_Layer: 5
   m_Name: Puzzle_PNL
   m_TagString: Untagged
@@ -305,6 +306,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2252532811788588291}
   m_CullTransparentMesh: 1
+--- !u!114 &4797416867502838054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252532811788588291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e05ba1dfff0da4abb26eb7dfbea8d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PuzzleUiController
+  brew_Btn: {fileID: 4911087948506731942}
+  puzzleName_Txt: {fileID: 2643493712954480624}
+  puzzleDescription_Txt: {fileID: 4292986546391246725}
+  ingHorizontalContainer: {fileID: 8956760486514811985}
+  rawIngUiController_Pf: {fileID: 500154485776196683, guid: 566b9b101de361f49b49f1538e2c8be2, type: 3}
+  slotsHorizontalContainer: {fileID: 4660294053537678003}
+  ingSlotUi_Pf: {fileID: 7595057112731238706, guid: 471b1ccbae5030f41aa6740e5453aa30, type: 3}
+  slotsUi: []
 --- !u!1 &2315694404890417256
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,8 +479,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -533,7 +554,7 @@ GameObject:
   - component: {fileID: 4600798803427303055}
   - component: {fileID: 4292986546391246725}
   m_Layer: 5
-  m_Name: Puzzle_Description_Text
+  m_Name: PuzzleDescription_Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -828,7 +849,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -32.73}
   m_SizeDelta: {x: -400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1806074797991550061
@@ -894,6 +915,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 100}
-  m_SizeDelta: {x: -200, y: -400}
+  m_AnchoredPosition: {x: 0, y: 125}
+  m_SizeDelta: {x: -200, y: -450}
   m_Pivot: {x: 0.5, y: 0.5}

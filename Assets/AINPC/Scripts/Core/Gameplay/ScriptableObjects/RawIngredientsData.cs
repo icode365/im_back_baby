@@ -5,7 +5,7 @@ using UnityEngine;
 namespace AINPC.Scripts.Core.Gameplay.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "RawIngredients", menuName = "Scriptable Objects/RawIngredients")]
-    public class RawIngredients : ScriptableObject
+    public class RawIngredientsData : ScriptableObject
     { 
         [SerializeField]
         public List<RawIngredient> rawIngredients = new();

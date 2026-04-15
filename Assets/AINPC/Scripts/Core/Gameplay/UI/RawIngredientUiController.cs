@@ -48,7 +48,7 @@ namespace AINPC.Scripts.Core.Gameplay.UI
             base.IsSelected = false;
 
             gameObject.name = "RI_" + RawIng.ingredientName;
-            Debug.Log(rawIng.ingredientName + "," + RawIng.properties[0]);
+            //Debug.Log(rawIng.ingredientName + "," + RawIng.properties[0]);
             return this;
         }
     }
