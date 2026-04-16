@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 
 namespace AINPC.Scripts.Core.Gameplay.Interfaces
 {
+    // Does this need to be an interface?
     [Serializable]
     public class RawIngredient
     {

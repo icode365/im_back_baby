@@ -318,14 +318,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e05ba1dfff0da4abb26eb7dfbea8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleUiController
-  brew_Btn: {fileID: 4911087948506731942}
-  puzzleName_Txt: {fileID: 2643493712954480624}
-  puzzleDescription_Txt: {fileID: 4292986546391246725}
+  brewButton: {fileID: 4911087948506731942}
+  puzzleNameText: {fileID: 2643493712954480624}
+  puzzleDescriptionTxt: {fileID: 4292986546391246725}
   ingHorizontalContainer: {fileID: 8956760486514811985}
-  rawIngUiController_Pf: {fileID: 500154485776196683, guid: 566b9b101de361f49b49f1538e2c8be2, type: 3}
+  ingredientPrefab: {fileID: 500154485776196683, guid: 566b9b101de361f49b49f1538e2c8be2, type: 3}
   slotsHorizontalContainer: {fileID: 4660294053537678003}
-  ingSlotUi_Pf: {fileID: 7595057112731238706, guid: 471b1ccbae5030f41aa6740e5453aa30, type: 3}
-  slotsUi: []
+  slotPrefab: {fileID: 7595057112731238706, guid: 471b1ccbae5030f41aa6740e5453aa30, type: 3}
+  slots: []
 --- !u!1 &2315694404890417256
 GameObject:
   m_ObjectHideFlags: 0

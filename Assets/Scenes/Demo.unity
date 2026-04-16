@@ -119,6 +119,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &5284208
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5284210}
+  - component: {fileID: 5284209}
+  m_Layer: 0
+  m_Name: PuzzleInteractionController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &5284209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9865fd1f0394f97bd56944e3d448c93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AINPC.Scripts.Core.Gameplay.UI.Controller.PuzzleInteractionController
+  puzzlePanel: {fileID: 2000460043}
+--- !u!4 &5284210
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284208}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 538.92676, y: 419.54214, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2090669817}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &10019936
 GameObject:
   m_ObjectHideFlags: 0
@@ -3020,9 +3065,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44ff59a2cb7171448b415e5b2f8b7163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AINPC.Scripts.Core.Gameplay.GameplayManager
-  _puzzleData: {fileID: 11400000, guid: 731a0c0c14a715e4fad0dccc4eb89730, type: 2}
+  puzzleData: {fileID: 11400000, guid: 731a0c0c14a715e4fad0dccc4eb89730, type: 2}
   ingredientsData: {fileID: 11400000, guid: c046e4faa0d66ca4987ba9ca6a1e5fef, type: 2}
-  puzzleUi: {fileID: 2000460043}
+  puzzlePanelHandler: {fileID: 2000460043}
+  puzzleInteractionController: {fileID: 5284209}
 --- !u!4 &2090669817
 Transform:
   m_ObjectHideFlags: 0
@@ -3035,7 +3081,8 @@ Transform:
   m_LocalPosition: {x: 379.42322, y: 260.90787, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5284210}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6364249637597322907
@@ -3144,11 +3191,11 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 330585546}
+  - {fileID: 1250959416}
   - {fileID: 2090669817}
   - {fileID: 942659161}
   - {fileID: 1914863947}
   - {fileID: 1189599688}
-  - {fileID: 1250959416}
   - {fileID: 1507550631}
   - {fileID: 762456481}
   - {fileID: 1688084875}

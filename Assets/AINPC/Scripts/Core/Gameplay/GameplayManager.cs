@@ -1,10 +1,8 @@
-using System.Collections.Generic;
 using AINPC.Scripts.Core.Gameplay.Data;
 using AINPC.Scripts.Core.Gameplay.Interfaces;
 using AINPC.Scripts.Core.Gameplay.ScriptableObjects;
-using AINPC.Scripts.Core.Gameplay.UI;
-using AINPC.Scripts.Core.Gameplay.UI.Base;
 using AINPC.Scripts.Core.Gameplay.UI.Controller;
+using AINPC.Scripts.Core.Gameplay.UI.Handlers;
 using AINPC.Scripts.Core.Gameplay.Validator;
 using UnityEngine;
 
@@ -12,32 +10,28 @@ namespace AINPC.Scripts.Core.Gameplay
 {
     public class GameplayManager : MonoBehaviour
     {
-        private IValidator validator;
-        public PuzzleData _puzzleData;
-        public RawIngredientsData ingredientsData = null;
+        private IValidator _validator;
+        [SerializeField] private PuzzleData puzzleData; // TODO : this should be list of puzzle Levels or it should be one scriptableObject with list of levels
+        [SerializeField] private IngredientsData ingredientsData = null;
+        [SerializeField] private PuzzlePanelHandler puzzlePanelHandler = null;
+        [SerializeField] private PuzzleInteractionController puzzleInteractionController = null;
 
-        [SerializeField] private PuzzleUiController puzzleUi;
-
-        public void Init(IValidator _validator)
+        public void Init(IValidator validator)
         {
-            validator = _validator;
+            _validator = validator;
         }
 
         private void Start()
         {
-            ingredientsData.rawIngredients.ForEach(ing => puzzleUi.SpawnRawIngredients(ing));
-            _puzzleData.rawIngredients.ForEach(ing => puzzleUi.SpawnRawIngSlot());
+            puzzlePanelHandler.Initialize(puzzleData, ingredientsData);
 
-            puzzleUi.BrewButtonClicked += BrewButtonClicked;
-            puzzleUi.SetupPuzzleData(_puzzleData);
+            puzzleInteractionController.ValidateOnBrew += BrewButtonClicked;
         }
 
-        private void BrewButtonClicked()
+        private void BrewButtonClicked(Recipe.Recipe userRecipe)
         {
-            IRecipe userRecipe = new Recipe(puzzleUi.GetRawIngUserInput());
-            IRecipe puzzleRecipe = new Recipe(_puzzleData.rawIngredients);
-            
-            var validationResult = validator.Validate(puzzleRecipe, userRecipe);
+            IRecipe puzzleRecipe = new Recipe.Recipe(puzzleData.rawIngredients);
+            var validationResult = _validator.Validate(puzzleRecipe, userRecipe);
             
             OnValidationCompleted(validationResult);
         }
@@ -46,7 +40,5 @@ namespace AINPC.Scripts.Core.Gameplay
         {
             Debug.Log($"Result : {result.Correct},\n Result.PartiallyCorrect : {result.PartiallyCorrect}");
         }
-        
-        
     }
 }

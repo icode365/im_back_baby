@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 namespace AINPC.Scripts.Core.Gameplay.UI
 {
-    public class RawIngredientSlotUi : SelectableUi<RawIngredientSlotUi>
+    public class IngredientSlot : SelectableUi<IngredientSlot>
     {
         public Image slotImage = null;
-        public RawIngredient AssignedIngredient { get; private set; } = null;
+        public Interfaces.RawIngredient AssignedIngredient { get; private set; } = null;
 
         private void Awake()
         {
@@ -25,7 +25,7 @@ namespace AINPC.Scripts.Core.Gameplay.UI
             }
         }
 
-        public void AssignIngredient(RawIngredient rawIng)
+        public void AssignIngredient(Interfaces.RawIngredient rawIng)
         {
             if (rawIng == null)
             {

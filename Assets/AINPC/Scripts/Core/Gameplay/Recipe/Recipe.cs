@@ -1,14 +1,19 @@
 using System.Collections.Generic;
 using AINPC.Scripts.Core.Gameplay.Interfaces;
 
-public class Recipe : IRecipe
+// TODO : Fix the Recipe namespace
+// TODO : Does it need to be a IRecipe ?
+namespace AINPC.Scripts.Core.Gameplay.Recipe
 {
-    public List<RawIngredient> rawIngredients { get; set; }
-    public string recipeName { get; set; }
-    public string description { get; set; }
-
-    public Recipe(List<RawIngredient> rawIngredients)
+    public class Recipe : IRecipe
     {
-        this.rawIngredients = rawIngredients;
+        public List<RawIngredient> rawIngredients { get; set; }
+        public string recipeName { get; set; }
+        public string description { get; set; }
+
+        public Recipe(List<RawIngredient> rawIngredients)
+        {
+            this.rawIngredients = rawIngredients;
+        }
     }
 }

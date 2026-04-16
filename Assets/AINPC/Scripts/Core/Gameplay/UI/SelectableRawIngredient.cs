@@ -1,5 +1,3 @@
-using System;
-using AINPC.Scripts.Core.Gameplay.Interfaces;
 using AINPC.Scripts.Core.Gameplay.UI.Base;
 using TMPro;
 using UnityEngine;
@@ -7,9 +5,9 @@ using UnityEngine.UI;
 
 namespace AINPC.Scripts.Core.Gameplay.UI
 {
-    public class RawIngredientUiController : SelectableUi<RawIngredientUiController>
+    public class SelectableRawIngredient : SelectableUi<SelectableRawIngredient>
     {
-        public RawIngredient RawIng { get; private set; } = null;
+        public Interfaces.RawIngredient RawIng { get; private set; } = null;
         
         public Image ingSprite = null;
         public TMP_Text ingName = null;
@@ -26,7 +24,7 @@ namespace AINPC.Scripts.Core.Gameplay.UI
             btn.onClick.AddListener(ToggleSelection);
         }
 
-        public RawIngredientUiController SetupRawIngUI(RawIngredient rawIng)
+        public SelectableRawIngredient SetupRawIngUI(Interfaces.RawIngredient rawIng)
         {
             if (border == null || ingSprite == null || ingName == null || btn == null)
             {
