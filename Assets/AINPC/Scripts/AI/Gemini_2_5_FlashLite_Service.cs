@@ -62,7 +62,7 @@ namespace AINPC.Scripts.AI
         private class Part
         {
             public string text;
-            public InlineData inlineData;
+            // public InlineData inlineData;
         }
 
         [Serializable]
@@ -93,6 +93,10 @@ namespace AINPC.Scripts.AI
         #endregion
 
         private AiSetting _aiSetting = null;
+
+        private const string url =
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";
+
         public UnityEvent<string> OnResponseReceived = new();
 
         public void Initialize(AiSetting aiSetting)
@@ -103,16 +107,13 @@ namespace AINPC.Scripts.AI
         public async Task<ApiResponse> GetResponseAsync(string prompt, string systemInstruction)
         {
             ApiResponse apiResponse = new();
-            Debug.Log("Prompt Received : " + prompt);
-
 
             var requestBody = BuildRequestBody(prompt, systemInstruction);
+            Debug.Log("Request Body : " + requestBody);
 
             string jsonBody = JsonUtility.ToJson(requestBody);
             // TODO : Use the GeminiAISetting.ModelCode for flexibility
-            string url =
-                "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent";
-
+            
             using (var request = new UnityWebRequest(url, "POST"))
             {
                 byte[] jsonRaw = Encoding.UTF8.GetBytes(jsonBody);
@@ -143,7 +144,7 @@ namespace AINPC.Scripts.AI
 
                 if (request.result != UnityWebRequest.Result.Success)
                 {
-                    Debug.LogError("Request Returned : " + request.error + request.responseCode);
+                    Debug.LogError("Request Returned : " + request.error + request.responseCode + "\n" + request.downloadHandler.text );
                     OnResponseReceived?.Invoke(request.error);
 
                     apiResponse.error = request.error;

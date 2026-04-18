@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using AINPC.Scripts.Character;
 using AINPC.Scripts.Core.AI.Interfaces;
@@ -60,28 +61,42 @@ namespace AINPC.Scripts.Core.Bootstrapper
         {
             var userPrompt = GetUserPrompt();
             var systemInstruction = GetSystemInstruction();
+            
             var npcResponse = await npcConversationHandler.SendPrompt(userPrompt, systemInstruction);
 
             // TODO: Show in front-end
             Debug.Log($"Response : {npcResponse.response}");
-            var audioResponse = await _service.RequestAudioFor(npcResponse.response);
-
-            Debug.Log($"Response : {audioResponse.status} | {audioResponse.response}");
-
-            if (npcResponse.status == EAPIStatus.Success)
-            {
-                audioSource.clip = npcResponse.responseObject as AudioClip;
-                audioSource.Play();
-            }
-            else
-            {
-                Debug.LogError($"Audio playback failed: {npcResponse.error}");
-            }
+            
+            GlobalEventHandler.Instance.OnApiResponseRecieved(npcResponse);
+            
+            // var audioResponse = await _service.RequestAudioFor(npcResponse.response);
+            //
+            // Debug.Log($"Response : {audioResponse.status} | {audioResponse.response}");
+            //
+            // if (npcResponse.status == EAPIStatus.Success)
+            // {
+            //     audioSource.clip = npcResponse.responseObject as AudioClip;
+            //     audioSource.Play();
+            // }
+            // else
+            // {
+            //     Debug.LogError($"Audio playback failed: {npcResponse.error}");
+            // }
         }
 
         private string GetSystemInstruction()
         {
-            return personaHandler.BuildPersonaPrompt();
+            var systemInstruction = personaHandler.BuildPersonaPrompt();
+            var puzzleData = gameplayManager.GetPuzzleData();
+            var ingredientData = gameplayManager.GetIngredientData();
+            
+            systemInstruction += AiPromptBuilder.BuildPrompt(
+                puzzleData.puzzleName,
+                puzzleData.description,
+                ingredientData);
+            
+            return systemInstruction;
+            
         }
 
         private string GetUserPrompt()

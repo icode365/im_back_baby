@@ -28,6 +28,9 @@ namespace AINPC.Scripts.Core.Gameplay
             puzzleInteractionController.ValidateOnBrew += BrewButtonClicked;
         }
 
+        public PuzzleData GetPuzzleData() => puzzleData;
+        public IngredientsData GetIngredientData() => ingredientsData;
+        
         private void BrewButtonClicked(Recipe.Recipe userRecipe)
         {
             IRecipe puzzleRecipe = new Recipe.Recipe(puzzleData.rawIngredients);

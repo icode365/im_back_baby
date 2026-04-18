@@ -22,10 +22,10 @@ namespace AINPC.Scripts.Data
         {
             get
             {
-                if (!string.IsNullOrEmpty(apiKey))
-                    return apiKey;
-                Debug.LogWarning(
-                    "[AiSetting] apiKey is null or empty.");
+                // if (!string.IsNullOrEmpty(apiKey))
+                //     return apiKey;
+                // Debug.LogWarning(
+                //     "[AiSetting] apiKey is null or empty.");
 
                 return LoadKeyFromFile();
             }
