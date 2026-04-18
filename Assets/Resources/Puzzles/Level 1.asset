@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e03108617be671a42a20e5bb14c574a5, type: 3}
+  m_Name: Level 1
+  m_EditorClassIdentifier: Assembly-CSharp::AINPC.Scripts.Core.Gameplay.Data.PuzzleData
+  puzzleName: Veil of Darkness
+  Ingredients: {fileID: 11400000, guid: c046e4faa0d66ca4987ba9ca6a1e5fef, type: 2}
+  rawIngredients:
+  - ingredientName: Ether-X
+    properties: []
+    sprite: {fileID: 0}
+  - ingredientName: Phosphor-M
+    properties: []
+    sprite: {fileID: 0}
+  description: Whisper 2 breaths of drifting spirit into 1 shard of burning memory.
+    Results Black Smoke.

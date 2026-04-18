@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4da520e11440740af660c1461badc6, type: 3}
+  m_Name: RawIngredients
+  m_EditorClassIdentifier: Assembly-CSharp::AINPC.Scripts.Core.Gameplay.ScriptableObjects.RawIngredients
+  rawIngredients:
+  - ingredientName: Ether-X
+    properties:
+    - Volatility, Diffusion
+    sprite: {fileID: 21300000, guid: 0f73ff5590d2a7c4a9e8d0584bfe0e54, type: 3}
+  - ingredientName: Phosphor-M
+    properties:
+    - Heat, Glow
+    sprite: {fileID: 21300000, guid: e4f3608c3e28636418dfafcf8fa78127, type: 3}
+  - ingredientName: Nitro-F
+    properties:
+    - Reactivity, Pressure
+    sprite: {fileID: 21300000, guid: 5621dadff96f1c442a87448d96538df5, type: 3}
+  - ingredientName: Carbon-Dust
+    properties:
+    - Smoke, Density
+    sprite: {fileID: 21300000, guid: 80b73a112e1bb7846ac3e081deff5a4d, type: 3}
+  - ingredientName: Aqua-Sol
+    properties:
+    - Cooling, Dilution
+    sprite: {fileID: 21300000, guid: 0792e649d0f4f514eaeb2ce86de5c012, type: 3}
+  - ingredientName: Raisin-K
+    properties:
+    - Bindin, Stability
+    sprite: {fileID: 21300000, guid: 1af288a25e0ce394f861f1125fd40f37, type: 3}
+  - ingredientName: Iron-Powder
+    properties:
+    - Energy, Charge
+    sprite: {fileID: 21300000, guid: a6aa0d23e8b44eb4fb6137caf170452a, type: 3}
+  - ingredientName: Sulphuric-Ash
+    properties:
+    - Corrosion, Decay
+    sprite: {fileID: 21300000, guid: 6ecb55fbd879fc74fb1a9aec0b3f77a8, type: 3}

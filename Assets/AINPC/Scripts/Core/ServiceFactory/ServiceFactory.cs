@@ -1,5 +1,7 @@
 using AINPC.Scripts.AI;
 using AINPC.Scripts.Core.AI.Interfaces;
+using AINPC.Scripts.Core.Gameplay.Interfaces;
+using AINPC.Scripts.Core.Gameplay.Validator;
 using AINPC.Scripts.Data;
 using UnityEngine;
 
@@ -48,6 +50,11 @@ namespace AINPC.Scripts.Core.ServiceFactory
             Gemini_2_5_FlashLite_Tts_Service ttsService = new();
             ttsService.Initialize(aiSetting);
             return ttsService;
+        }
+
+        public IValidator GetValidator()
+        {
+            return new SolutionValidator();
         }
     }
 }
