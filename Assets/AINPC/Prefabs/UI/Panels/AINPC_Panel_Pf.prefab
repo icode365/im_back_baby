@@ -235,7 +235,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00036621094, y: -0.000061035156}
+  m_AnchoredPosition: {x: -0.00036621094, y: 0}
   m_SizeDelta: {x: 0, y: 337}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3278416162513651477
@@ -986,7 +986,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3864209760660275093}
   m_HandleRect: {fileID: 5233755825012564919}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1891,7 +1891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.1254902}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1923,8 +1923,8 @@ MonoBehaviour:
   m_Content: {fileID: 1422737414872629877}
   m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 2
-  m_Elasticity: 0.1
+  m_MovementType: 1
+  m_Elasticity: 0.05
   m_Inertia: 1
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 1
@@ -2270,6 +2270,7 @@ GameObject:
   - component: {fileID: 5082697238661562350}
   - component: {fileID: 5182416245151883671}
   - component: {fileID: 471028698995050923}
+  - component: {fileID: 7463839027226186971}
   m_Layer: 5
   m_Name: AINPC_Panel_Pf
   m_TagString: Untagged
@@ -2284,7 +2285,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6571307288112961138}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2335,6 +2336,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7463839027226186971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6571307288112961138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61d69604848df24d8937c2b2f08b095, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AINPC.Scripts.UI.NpcConversationUiHandler
+  inputField: {fileID: 2144504467051236523}
 --- !u!1 &7051253973271601678
 GameObject:
   m_ObjectHideFlags: 0

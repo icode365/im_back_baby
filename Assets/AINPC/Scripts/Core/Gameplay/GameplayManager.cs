@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using AINPC.Scripts.Core.Gameplay.Data;
 using AINPC.Scripts.Core.Gameplay.Interfaces;
 using AINPC.Scripts.Core.Gameplay.ScriptableObjects;
@@ -16,7 +18,7 @@ namespace AINPC.Scripts.Core.Gameplay
         [SerializeField] private PuzzlePanelHandler puzzlePanelHandler = null;
         [SerializeField] private PuzzleInteractionController puzzleInteractionController = null;
 
-        public void Init(IValidator validator)
+        public void Initialize(IValidator validator)
         {
             _validator = validator;
         }
@@ -35,13 +37,28 @@ namespace AINPC.Scripts.Core.Gameplay
         {
             IRecipe puzzleRecipe = new Recipe.Recipe(puzzleData.rawIngredients);
             var validationResult = _validator.Validate(puzzleRecipe, userRecipe);
+
+            RecipeProperties recipeProperties = new();
+            List<string> properties = new();
             
-            OnValidationCompleted(validationResult);
+            userRecipe.rawIngredients.ForEach(i => properties.AddRange(GetPropertiesFor(i.ingredientName)));
+            recipeProperties.SetProperties(properties);
+            
+            OnValidationCompleted(validationResult, recipeProperties);
         }
 
-        private void OnValidationCompleted(ValidationResult result)
+        private List<string> GetPropertiesFor(string ingredientName)
+        {
+            var ingredientData = ingredientsData.rawIngredients.First(i => i.ingredientName == ingredientName);
+            return ingredientData.properties;
+        }
+        
+        private void OnValidationCompleted(ValidationResult result, RecipeProperties properties)
         {
             Debug.Log($"Result : {result.Correct},\n Result.PartiallyCorrect : {result.PartiallyCorrect}");
+            Debug.Log($"Resultant Properties : {string.Join(",", properties.ResultantProperties)}");
+
+            GlobalEventHandler.Instance.OnBrewed(result, properties);
         }
     }
 }

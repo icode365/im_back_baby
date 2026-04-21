@@ -15,6 +15,16 @@ namespace AINPC.Scripts.Core.Gameplay.Validator
             PartiallyCorrect = partiallyCorrect;
         }
     }
+
+    public class RecipeProperties
+    {
+        public List<string> ResultantProperties  { get; private set; } = new();
+
+        public void SetProperties(List<string> properties)
+        {
+            ResultantProperties = properties;
+        }
+    }
     
     public class SolutionValidator : IValidator
     {
@@ -41,13 +51,16 @@ namespace AINPC.Scripts.Core.Gameplay.Validator
             if (isCorrect)
             {
                 result.SetResult(true, false);
+                
                 return result;
             }
 
             // Check for partial match (at least one ingredient matches)
             bool isPartiallyCorrect = IsPartiallyCorrect(solutionIngredients, recipeIngredients);
             
+            
             result.SetResult(false, isPartiallyCorrect);
+            
             return result;
         }
 

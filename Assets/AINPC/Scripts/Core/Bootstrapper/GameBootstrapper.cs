@@ -35,7 +35,7 @@ namespace AINPC.Scripts.Core.Bootstrapper
             ILLMService service = serviceFactory.InitializeLlmService();
             npcConversationHandler.Initialize(service);
             
-            gameplayManager.Init(serviceFactory.GetValidator());
+            gameplayManager.Initialize(serviceFactory.GetValidator());
 
             _service = serviceFactory.InitializeTTSService();
 
@@ -68,20 +68,6 @@ namespace AINPC.Scripts.Core.Bootstrapper
             Debug.Log($"Response : {npcResponse.response}");
             
             GlobalEventHandler.Instance.OnApiResponseRecieved(npcResponse);
-            
-            // var audioResponse = await _service.RequestAudioFor(npcResponse.response);
-            //
-            // Debug.Log($"Response : {audioResponse.status} | {audioResponse.response}");
-            //
-            // if (npcResponse.status == EAPIStatus.Success)
-            // {
-            //     audioSource.clip = npcResponse.responseObject as AudioClip;
-            //     audioSource.Play();
-            // }
-            // else
-            // {
-            //     Debug.LogError($"Audio playback failed: {npcResponse.error}");
-            // }
         }
 
         private string GetSystemInstruction()
