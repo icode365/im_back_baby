@@ -1,8 +1,6 @@
 using AINPC.Scripts.Core.Gameplay.Validator;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using AINPC.Scripts.Core.Gameplay.Validator;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,23 +14,20 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
         [SerializeField] private Button tryAgainButton;
         [SerializeField] private Button yayButton;
 
-        [Header("Optional Ingredient Visuals")] [SerializeField]
-        private Image resultImage;
+        private Image leftImg;
+        private Image rightImg;
 
         [SerializeField] private PropertyVisualRules propertyVisualRules;
 
-        [Header("Tween")] [SerializeField] private RectTransform[] tweenTargets;
+        [Header("Tween")] [SerializeField] private RectTransform leftImage;
+        [SerializeField] private RectTransform rightImage;
         [SerializeField] private float tweenDuration = 0.35f;
 
         [SerializeField] private Transform leftOffscreenTransform;
         [SerializeField] private Transform rightOffscreenTransform;
-        
-        
+
         [SerializeField] private Transform leftOnscreenTransform;
         [SerializeField] private Transform rightOnscreenTransform;
-        // [SerializeField] private Vector2 offScreenOffset = new Vector2(0f, -1200f);
-
-        private LTDescr _tweenRoutine;
 
         private void Start()
         {
@@ -52,6 +47,12 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
             }
 
             SetResultPanelVisible(false);
+
+            if (leftImage != null && rightImage != null)
+            {
+                leftImg = leftImage.GetComponent<Image>();
+                rightImg = rightImage.GetComponent<Image>();
+            }
         }
 
         private void OnDestroy()
@@ -97,8 +98,8 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
             {
                 SetResultIngredientVisuals(recipeProperties.ResultantProperties);
             }
-            
-            TweenOnScreen();
+
+            TweenIn();
         }
 
         private void UpdateButtons(ValidationResult results)
@@ -116,79 +117,43 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
 
         private void OnTryAgainClicked()
         {
-            TweenOffScreen();
+            Dismiss();
         }
 
         private void OnYayClicked()
         {
-            TweenOffScreen();
+            Dismiss();
         }
 
-        private void TweenOffScreen()
+        private void Dismiss()
         {
-            if (_tweenRoutine != null)
-            {
-                LeanTween.cancel(_tweenRoutine.id);
-            }
-
-            _tweenRoutine = TweenOffScreenRoutine();
+            TweenOut();
+            // todo : add wait for tweening to complete
+            SetResultPanelVisible(false);
         }
 
-        private void TweenOnScreen()
+        private void TweenIn()
         {
-            if (_tweenRoutine != null)
-            {
-                LeanTween.cancel(_tweenRoutine.id);
-            }
-
-            _tweenRoutine = TweenOnScreenRoutine();
+            TweenRect(leftImage, leftOffscreenTransform.localPosition, leftOnscreenTransform.localPosition);
+            TweenRect(rightImage, rightOffscreenTransform.localPosition, rightOnscreenTransform.localPosition);
         }
-        
-        private LTDescr TweenOffScreenRoutine()
+
+        private void TweenOut()
         {
-            var targets = tweenTargets ?? Array.Empty<RectTransform>();
-            var startPositions = new Vector2[targets.Length];
-
-            for (int i = 0; i < targets.Length; i++)
-            {
-                if (targets[i] != null)
-                {
-                    targets[i].anchoredPosition = leftOffscreenTransform.position;
-                }
-            }
-
-            var tween = LeanTween.value(targets[0].gameObject, targets[0].anchoredPosition.x, leftOffscreenTransform.position.x,
-                    tweenDuration)
-                .setOnUpdate((float value)
-                    =>
-                {
-                    targets[0].anchoredPosition = new(value, targets[0].anchoredPosition.y);
-                })
-                .setOnComplete(() => SetResultPanelVisible(false));
-            return tween;
+            TweenRect(leftImage, leftOnscreenTransform.localPosition, leftOffscreenTransform.localPosition);
+            TweenRect(rightImage, rightOnscreenTransform.localPosition, rightOffscreenTransform.localPosition);
         }
-        
-        private LTDescr TweenOnScreenRoutine()
-        {
-            var targets = tweenTargets ?? Array.Empty<RectTransform>();
 
-            for (int i = 0; i < targets.Length; i++)
+        private void TweenRect(RectTransform target, Vector2 from, Vector2 to)
+        {
+            if (target == null)
             {
-                if (targets[i] != null)
-                {
-                    targets[i].anchoredPosition = leftOffscreenTransform.position;
-                }
+                return;
             }
 
-            var tween = LeanTween.value(targets[0].gameObject, targets[0].anchoredPosition.x, leftOffscreenTransform.position.x,
-                    tweenDuration)
-                .setOnUpdate((float value)
-                    =>
-                {
-                    targets[0].anchoredPosition = new(value, targets[0].anchoredPosition.y);
-                });
-            
-            return tween;
+            target.anchoredPosition = from;
+            LeanTween.cancel(target.gameObject);
+            LeanTween.move(target, to, tweenDuration).setEaseOutCubic();
         }
 
         private void SetResultPanelVisible(bool visible)
@@ -201,7 +166,7 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
 
         public void SetResultIngredientVisuals(IEnumerable<string> propertyKeywords)
         {
-            if (resultImage == null || propertyKeywords == null)
+            if (leftImg == null || rightImg == null || propertyKeywords == null)
             {
                 return;
             }
@@ -235,10 +200,15 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
 
             if (chosenSprite != null)
             {
-                resultImage.sprite = chosenSprite;
+                leftImg.sprite = chosenSprite;
+                leftImg.SetNativeSize();
+                
+                rightImg.sprite = chosenSprite;
+                rightImg.SetNativeSize();
             }
 
-            resultImage.color = chosenTint;
+            leftImg.color = chosenTint;
+            rightImg.color = chosenTint;
         }
     }
 }

@@ -21,3 +21,27 @@ MonoBehaviour:
     IsColorOnly: 0
     Sprite: {fileID: 21300000, guid: 5af1116c1a94b5441b0ae0979ce8bae7, type: 3}
     Tint: {r: 1, g: 1, b: 1, a: 1}
+  - Keyword: Reactivity
+    IsColorOnly: 1
+    Sprite: {fileID: 0}
+    Tint: {r: 0.934638, g: 1, b: 0.1566037, a: 1}
+  - Keyword: Smoke
+    IsColorOnly: 1
+    Sprite: {fileID: 0}
+    Tint: {r: 0.2981131, g: 0.2981131, b: 0.2981131, a: 1}
+  - Keyword: Cooling
+    IsColorOnly: 1
+    Sprite: {fileID: 0}
+    Tint: {r: 0.2396226, g: 0.5357687, b: 1, a: 1}
+  - Keyword: Stability
+    IsColorOnly: 1
+    Sprite: {fileID: 0}
+    Tint: {r: 0.82641506, g: 0.029626084, b: 0.6484321, a: 1}
+  - Keyword: Corrosion
+    IsColorOnly: 0
+    Sprite: {fileID: 21300000, guid: 781556e8994b3d543934429d5327c8a6, type: 3}
+    Tint: {r: 1, g: 1, b: 1, a: 1}
+  - Keyword: Energy
+    IsColorOnly: 0
+    Sprite: {fileID: 21300000, guid: c4c548a339b4d41a590928c0c98934a7, type: 3}
+    Tint: {r: 1, g: 1, b: 1, a: 1}

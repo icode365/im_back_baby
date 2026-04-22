@@ -622,8 +622,8 @@ MonoBehaviour:
   yayButton: {fileID: 325522880116045775}
   resultImage: {fileID: 6838238067325805428}
   propertyVisualRules: {fileID: 11400000, guid: 36948030ddda53d46ba57c57e8908cc1, type: 2}
-  tweenTargets:
-  - {fileID: 8872644900647758721}
+  leftImage: {fileID: 0}
+  rightImage: {fileID: 0}
   tweenDuration: 0.35
   leftOffscreenTransform: {fileID: 6095538997038618797}
   rightOffscreenTransform: {fileID: 6101472175931220181}
@@ -652,7 +652,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5312109987235955752}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -661,7 +661,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -450, y: 0}
+  m_AnchoredPosition: {x: -440, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5332215572459246664
@@ -1117,8 +1117,8 @@ RectTransform:
   - {fileID: 8872644900647758721}
   - {fileID: 6930198884224931288}
   - {fileID: 6095538997038618797}
-  - {fileID: 6101472175931220181}
   - {fileID: 5718378785378425795}
+  - {fileID: 6101472175931220181}
   - {fileID: 3393436981281614998}
   - {fileID: 4815973814175010874}
   m_Father: {fileID: 7214065432228640706}

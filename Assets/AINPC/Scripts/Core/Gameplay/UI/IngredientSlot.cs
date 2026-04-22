@@ -25,7 +25,7 @@ namespace AINPC.Scripts.Core.Gameplay.UI
             }
         }
 
-        public void AssignIngredient(Interfaces.RawIngredient rawIng)
+        public void AssignIngredient(RawIngredient rawIng)
         {
             if (rawIng == null)
             {
