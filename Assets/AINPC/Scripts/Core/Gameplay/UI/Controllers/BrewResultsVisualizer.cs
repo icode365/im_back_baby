@@ -11,30 +11,28 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
 {
     public class BrewResultsVisualizer : MonoBehaviour
     {
-        [Serializable]
-        private class PropertyVisualRule
-        {
-            public string Keyword;
-            public Sprite Sprite;
-            public Color Tint = Color.white;
-        }
-
-        [Header("Result UI")]
-        [SerializeField] private GameObject resultPanel;
+        [Header("Result UI")] [SerializeField] private GameObject resultPanel;
         [SerializeField] private TMP_Text resultLabel;
         [SerializeField] private Button tryAgainButton;
         [SerializeField] private Button yayButton;
 
-        [Header("Optional Ingredient Visuals")]
-        [SerializeField] private Image resultImage;
-        [SerializeField] private List<PropertyVisualRule> propertyVisualRules = new List<PropertyVisualRule>();
+        [Header("Optional Ingredient Visuals")] [SerializeField]
+        private Image resultImage;
 
-        [Header("Tween")]
-        [SerializeField] private RectTransform[] tweenTargets;
+        [SerializeField] private PropertyVisualRules propertyVisualRules;
+
+        [Header("Tween")] [SerializeField] private RectTransform[] tweenTargets;
         [SerializeField] private float tweenDuration = 0.35f;
-        [SerializeField] private Vector2 offScreenOffset = new Vector2(0f, -1200f);
 
-        private Coroutine _tweenRoutine;
+        [SerializeField] private Transform leftOffscreenTransform;
+        [SerializeField] private Transform rightOffscreenTransform;
+        
+        
+        [SerializeField] private Transform leftOnscreenTransform;
+        [SerializeField] private Transform rightOnscreenTransform;
+        // [SerializeField] private Vector2 offScreenOffset = new Vector2(0f, -1200f);
+
+        private LTDescr _tweenRoutine;
 
         private void Start()
         {
@@ -74,7 +72,6 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
             }
         }
 
-        // Updated to receive the newly added payload
         private void Visualize(ValidationResult results, RecipeProperties recipeProperties)
         {
             if (results == null)
@@ -88,19 +85,20 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
             if (resultLabel != null)
             {
                 resultLabel.text = results.Correct
-                    ? "Correct"
+                    ? "You're correct (even a broken clock is correct twice a day)"
                     : results.PartiallyCorrect
-                        ? "Partially correct"
-                        : "Incorrect";
+                        ? "Almost there"
+                        : "Completely incorrect, you dummy!";
             }
 
             UpdateButtons(results);
-            UpdateResultVisuals(results);
 
             if (recipeProperties != null)
             {
                 SetResultIngredientVisuals(recipeProperties.ResultantProperties);
             }
+            
+            TweenOnScreen();
         }
 
         private void UpdateButtons(ValidationResult results)
@@ -113,27 +111,6 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
             if (yayButton != null)
             {
                 yayButton.gameObject.SetActive(results.Correct);
-            }
-        }
-
-        private void UpdateResultVisuals(ValidationResult results)
-        {
-            if (resultImage == null)
-            {
-                return;
-            }
-
-            if (results.Correct)
-            {
-                resultImage.color = Color.green;
-            }
-            else if (results.PartiallyCorrect)
-            {
-                resultImage.color = new Color(1f, 0.75f, 0.2f, 1f);
-            }
-            else
-            {
-                resultImage.color = Color.red;
             }
         }
 
@@ -151,13 +128,23 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
         {
             if (_tweenRoutine != null)
             {
-                StopCoroutine(_tweenRoutine);
+                LeanTween.cancel(_tweenRoutine.id);
             }
 
-            _tweenRoutine = StartCoroutine(TweenOffScreenRoutine());
+            _tweenRoutine = TweenOffScreenRoutine();
         }
 
-        private IEnumerator TweenOffScreenRoutine()
+        private void TweenOnScreen()
+        {
+            if (_tweenRoutine != null)
+            {
+                LeanTween.cancel(_tweenRoutine.id);
+            }
+
+            _tweenRoutine = TweenOnScreenRoutine();
+        }
+        
+        private LTDescr TweenOffScreenRoutine()
         {
             var targets = tweenTargets ?? Array.Empty<RectTransform>();
             var startPositions = new Vector2[targets.Length];
@@ -166,46 +153,47 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
             {
                 if (targets[i] != null)
                 {
-                    startPositions[i] = targets[i].anchoredPosition;
+                    targets[i].anchoredPosition = leftOffscreenTransform.position;
                 }
             }
 
-            float elapsed = 0f;
-
-            while (elapsed < tweenDuration)
-            {
-                elapsed += Time.deltaTime;
-                float t = tweenDuration <= 0f ? 1f : Mathf.Clamp01(elapsed / tweenDuration);
-                t = Mathf.SmoothStep(0f, 1f, t);
-
-                for (int i = 0; i < targets.Length; i++)
+            var tween = LeanTween.value(targets[0].gameObject, targets[0].anchoredPosition.x, leftOffscreenTransform.position.x,
+                    tweenDuration)
+                .setOnUpdate((float value)
+                    =>
                 {
-                    if (targets[i] == null)
-                    {
-                        continue;
-                    }
-
-                    targets[i].anchoredPosition = Vector2.Lerp(startPositions[i], startPositions[i] + offScreenOffset, t);
-                }
-
-                yield return null;
-            }
+                    targets[0].anchoredPosition = new(value, targets[0].anchoredPosition.y);
+                })
+                .setOnComplete(() => SetResultPanelVisible(false));
+            return tween;
+        }
+        
+        private LTDescr TweenOnScreenRoutine()
+        {
+            var targets = tweenTargets ?? Array.Empty<RectTransform>();
 
             for (int i = 0; i < targets.Length; i++)
             {
                 if (targets[i] != null)
                 {
-                    targets[i].anchoredPosition = startPositions[i] + offScreenOffset;
+                    targets[i].anchoredPosition = leftOffscreenTransform.position;
                 }
             }
 
-            SetResultPanelVisible(false);
-            _tweenRoutine = null;
+            var tween = LeanTween.value(targets[0].gameObject, targets[0].anchoredPosition.x, leftOffscreenTransform.position.x,
+                    tweenDuration)
+                .setOnUpdate((float value)
+                    =>
+                {
+                    targets[0].anchoredPosition = new(value, targets[0].anchoredPosition.y);
+                });
+            
+            return tween;
         }
 
         private void SetResultPanelVisible(bool visible)
         {
-            if (resultPanel != null)
+            if (resultPanel)
             {
                 resultPanel.SetActive(visible);
             }
@@ -228,7 +216,7 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
                     continue;
                 }
 
-                foreach (var rule in propertyVisualRules)
+                foreach (var rule in propertyVisualRules.PropertyVisualRulesList)
                 {
                     if (rule == null || string.IsNullOrWhiteSpace(rule.Keyword))
                     {
@@ -237,8 +225,10 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
 
                     if (keyword.IndexOf(rule.Keyword, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
-                        chosenSprite = rule.Sprite ?? chosenSprite;
-                        chosenTint = MultiplyColors(chosenTint, rule.Tint);
+                        chosenSprite = rule.Sprite == null ? chosenSprite : rule.Sprite;
+                        chosenTint = rule.IsColorOnly ? rule.Tint : chosenTint;
+
+                        Debug.Log(keyword);
                     }
                 }
             }
@@ -249,11 +239,6 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
             }
 
             resultImage.color = chosenTint;
-        }
-
-        private static Color MultiplyColors(Color a, Color b)
-        {
-            return new Color(a.r * b.r, a.g * b.g, a.b * b.b, a.a * b.a);
         }
     }
 }
