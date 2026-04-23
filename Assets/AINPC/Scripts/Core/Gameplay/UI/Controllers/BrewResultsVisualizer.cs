@@ -127,33 +127,33 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
 
         private void Dismiss()
         {
-            TweenOut();
-            // todo : add wait for tweening to complete
-            SetResultPanelVisible(false);
+            var ltDescr = TweenOut();
+            ltDescr?.setOnComplete(() => SetResultPanelVisible(false));
         }
 
-        private void TweenIn()
+        private LTDescr TweenIn()
         {
             TweenRect(leftImage, leftOffscreenTransform.localPosition, leftOnscreenTransform.localPosition);
-            TweenRect(rightImage, rightOffscreenTransform.localPosition, rightOnscreenTransform.localPosition);
+            return TweenRect(rightImage, rightOffscreenTransform.localPosition, rightOnscreenTransform.localPosition);
         }
 
-        private void TweenOut()
+        private LTDescr TweenOut()
         {
             TweenRect(leftImage, leftOnscreenTransform.localPosition, leftOffscreenTransform.localPosition);
-            TweenRect(rightImage, rightOnscreenTransform.localPosition, rightOffscreenTransform.localPosition);
+            return TweenRect(rightImage, rightOnscreenTransform.localPosition, rightOffscreenTransform.localPosition);
         }
 
-        private void TweenRect(RectTransform target, Vector2 from, Vector2 to)
+        private LTDescr TweenRect(RectTransform target, Vector2 from, Vector2 to)
         {
             if (target == null)
             {
-                return;
+                return null;
             }
 
             target.anchoredPosition = from;
             LeanTween.cancel(target.gameObject);
-            LeanTween.move(target, to, tweenDuration).setEaseOutCubic();
+            var ltDescr = LeanTween.move(target, to, tweenDuration).setEaseOutCubic();
+            return ltDescr;
         }
 
         private void SetResultPanelVisible(bool visible)
@@ -202,7 +202,7 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controllers
             {
                 leftImg.sprite = chosenSprite;
                 leftImg.SetNativeSize();
-                
+
                 rightImg.sprite = chosenSprite;
                 rightImg.SetNativeSize();
             }
