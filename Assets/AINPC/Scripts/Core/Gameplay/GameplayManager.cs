@@ -14,9 +14,9 @@ namespace AINPC.Scripts.Core.Gameplay
     {
         private IValidator _validator;
         [SerializeField] private PuzzleData puzzleData; // TODO : this should be list of puzzle Levels or it should be one scriptableObject with list of levels
-        [SerializeField] private IngredientsData ingredientsData = null;
-        [SerializeField] private PuzzlePanelHandler puzzlePanelHandler = null;
-        [SerializeField] private PuzzleInteractionController puzzleInteractionController = null;
+        [SerializeField] private IngredientsData ingredientsData;
+        [SerializeField] private PuzzlePanelEventHandler puzzlePanelEventHandler;
+        [SerializeField] private PuzzleInteractionController puzzleInteractionController;
 
         public void Initialize(IValidator validator)
         {
@@ -25,15 +25,15 @@ namespace AINPC.Scripts.Core.Gameplay
 
         private void Start()
         {
-            puzzlePanelHandler.Initialize(puzzleData, ingredientsData);
+            puzzlePanelEventHandler.Initialize(puzzleData, ingredientsData);
 
-            puzzleInteractionController.ValidateOnBrew += BrewButtonClicked;
+            puzzleInteractionController.ValidateOnBrew += ValidateRecipe;
         }
 
         public PuzzleData GetPuzzleData() => puzzleData;
         public IngredientsData GetIngredientData() => ingredientsData;
         
-        private void BrewButtonClicked(Recipe.Recipe userRecipe)
+        private void ValidateRecipe(Recipe.Recipe userRecipe)
         {
             IRecipe puzzleRecipe = new Recipe.Recipe(puzzleData.rawIngredients);
             var validationResult = _validator.Validate(puzzleRecipe, userRecipe);

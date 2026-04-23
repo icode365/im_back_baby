@@ -10,6 +10,8 @@ namespace AINPC.Scripts.Core.Gameplay.UI
         public Image slotImage = null;
         public Interfaces.RawIngredient AssignedIngredient { get; private set; } = null;
 
+        public bool Assigned => AssignedIngredient != null;
+        
         private void Awake()
         {
             base.Awake();

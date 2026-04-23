@@ -13,6 +13,7 @@ namespace AINPC.Scripts.Core.Gameplay
         private GlobalEventHandler()
         {
             Debug.Log("[GLOBAL EVENT HANDLER] Created.");
+            
         }
         
         public event Action<ApiResponse> ApiResponseRecieved;

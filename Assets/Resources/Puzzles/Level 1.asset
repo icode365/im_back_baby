@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level 1
   m_EditorClassIdentifier: Assembly-CSharp::AINPC.Scripts.Core.Gameplay.Data.PuzzleData
   puzzleName: Veil of Darkness
-  Ingredients: {fileID: 11400000, guid: c046e4faa0d66ca4987ba9ca6a1e5fef, type: 2}
+  ingredientsData: {fileID: 0}
   rawIngredients:
   - ingredientName: Ether-X
     properties: []
@@ -21,5 +21,5 @@ MonoBehaviour:
   - ingredientName: Phosphor-M
     properties: []
     sprite: {fileID: 0}
-  description: Whisper 2 breaths of drifting spirit into 1 shard of burning memory.
-    Results Black Smoke.
+  description: "Whisper 2 breaths of drifting spirit into 1 shard of burning memory.
+    \nResults in Glowing Smoke."
