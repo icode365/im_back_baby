@@ -52,9 +52,14 @@ namespace AINPC.Scripts.Core.Gameplay.UI
         private void ToggleIsSelected()
         {
             IsSelected = !IsSelected;
-            
         }
 
+        public void Reset()
+        {
+            AssignedIngredient = null;
+            slotImage.sprite = null;
+        }
+        
         private void OnDestroy()
         {
             if (btn != null)

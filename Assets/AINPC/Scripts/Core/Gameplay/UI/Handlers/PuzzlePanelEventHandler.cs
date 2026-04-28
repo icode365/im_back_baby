@@ -57,12 +57,20 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Handlers
 
         public void Initialize(PuzzleData puzzleData, IngredientsData ingredientsData)
         {
-            SetupPuzzleData(puzzleData);
-            
             ingredientsData.rawIngredients.ForEach(SpawnIngredients);
             puzzleData.rawIngredients.ForEach(_ => SpawnIngredientSlot());
+         
+            SetupPuzzleData(puzzleData);
         }
 
+        public void ResetPuzzle()
+        {
+            foreach (var ingredientSlot in _slots)
+            {
+                ingredientSlot.Reset();
+            }
+        }
+        
         public void SetupPuzzleData(PuzzleData puzzleData)
         {
             puzzleNameText.text = puzzleData.puzzleName;

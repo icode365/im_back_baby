@@ -1,4 +1,5 @@
 using System;
+using AINPC.Scripts.Core.Gameplay.Data;
 using AINPC.Scripts.Core.Gameplay.UI.Handlers;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controller
         private SelectableRawIngredient _selectedIngredient = null;
 
         [SerializeField] private Transform snackbar;
-        
+
         [SerializeField] private PuzzlePanelEventHandler puzzlePanelEventHandler = null;
 
         public event Action<Recipe.Recipe> ValidateOnBrew;
@@ -28,7 +29,7 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controller
         private void AddListeners()
         {
             puzzlePanelEventHandler.BrewButtonClicked += BrewButtonClicked;
-            
+
             puzzlePanelEventHandler.SlotSelected += HandleSlotSelected;
             puzzlePanelEventHandler.SlotDeselected += HandleSlotDeselected;
 
@@ -39,14 +40,28 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controller
         private void RemoveListeners()
         {
             puzzlePanelEventHandler.BrewButtonClicked -= BrewButtonClicked;
-            
+
             puzzlePanelEventHandler.SlotSelected -= HandleSlotSelected;
             puzzlePanelEventHandler.SlotDeselected -= HandleSlotDeselected;
 
             puzzlePanelEventHandler.IngredientSelected -= HandleRawIngSelected;
             puzzlePanelEventHandler.IngredientDeselected -= HandleIngredientDeselected;
         }
-        
+
+        public void ResetAll()
+        {
+            _selectedIngredient?.Deselect();
+            _selectedIngredient = null;
+            _selectedSlot?.Deselect();
+            _selectedSlot = null;
+            puzzlePanelEventHandler.ResetPuzzle();
+        }
+
+        public void LoadPuzzle(PuzzleData data)
+        {
+            puzzlePanelEventHandler.SetupPuzzleData(data);
+        }
+
         private void HandleRawIngSelected(SelectableRawIngredient newIng)
         {
             if (_selectedIngredient)
@@ -125,10 +140,8 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controller
         private void BrewButtonClicked()
         {
             var userRecipe = new Recipe.Recipe(puzzlePanelEventHandler.GetRawIngUserInputList());
-            
+
             ValidateOnBrew?.Invoke(userRecipe);
         }
-
-        
     }
 }

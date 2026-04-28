@@ -7,22 +7,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace AINPC.Scripts.Core.UI.Tutorial
+namespace AINPC.Scripts.UI.Tutorial
 {
     public class TutorialHandler : MonoBehaviour
     {
-        [SerializeField] private List<string> tutorials = new()
-        {
-            "You are an Alchemist.\n\nNot a follower of instructions.\nA seeker of truth beneath symbols.",
-            "You observe.\nYou test.\nYou learn.",
-            "Each ingredient holds a nature.\nHeat. Decay. Motion. Binding.",
-            "Place two or three ingredients into the vessel.\n\nOrder does not matter.",
-            "The recipe will speak in riddles, so that these doesn't land in some amataur's hands.",
-            "When your mind is steady—\n\nPress “Brew.” to start mixing",
-            "The vessel will answer.",
-            "Reveal the hidden reaction.",
-            "Proceed wisely."
-        };
+        [SerializeField] private List<string> tutorials = new();
 
         [SerializeField] private TMP_Text tutorialsText;
         [SerializeField] private CanvasGroup tutorialCanvasGroup;

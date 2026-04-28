@@ -940,7 +940,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44ff59a2cb7171448b415e5b2f8b7163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AINPC.Scripts.Core.Gameplay.GameplayManager
-  puzzleData: {fileID: 11400000, guid: 731a0c0c14a715e4fad0dccc4eb89730, type: 2}
+  puzzleData:
+  - {fileID: 11400000, guid: 731a0c0c14a715e4fad0dccc4eb89730, type: 2}
+  - {fileID: 11400000, guid: da046138efbe322488b2fd4bc9327a5d, type: 2}
   ingredientsData: {fileID: 11400000, guid: c046e4faa0d66ca4987ba9ca6a1e5fef, type: 2}
   puzzlePanelEventHandler: {fileID: 2000460043}
   puzzleInteractionController: {fileID: 5284209}
@@ -968,10 +970,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1127753326}
     m_Modifications:
-    - target: {fileID: 4468805853304851776, guid: 94f8d7da9b2b39e4a90d578b5b3e968c, type: 3}
-      propertyPath: m_TargetCamera
-      value: 
-      objectReference: {fileID: 330585545}
+    - target: {fileID: 4560344222736167592, guid: 94f8d7da9b2b39e4a90d578b5b3e968c, type: 3}
+      propertyPath: m_text
+      value: Tutorial Step
+      objectReference: {fileID: 0}
     - target: {fileID: 7105847309743078845, guid: 94f8d7da9b2b39e4a90d578b5b3e968c, type: 3}
       propertyPath: m_Name
       value: Tutorial Handler
