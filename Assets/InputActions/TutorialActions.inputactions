@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "name": "TutorialActions",
+    "maps": [
+        {
+            "name": "Next",
+            "id": "379171f0-3e5e-460c-a3c7-80a7319d62d4",
+            "actions": [
+                {
+                    "name": "MouseClick",
+                    "type": "Button",
+                    "id": "9194556b-364a-4697-abf4-d20229305bcb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1ce065a5-3b1e-4533-8b40-59e9c48c0a04",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

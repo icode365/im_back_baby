@@ -10,6 +10,8 @@ namespace AINPC.Scripts.Core.Gameplay.UI
         public Image slotImage = null;
         public Interfaces.RawIngredient AssignedIngredient { get; private set; } = null;
 
+        public bool Assigned => AssignedIngredient != null;
+        
         private void Awake()
         {
             base.Awake();
@@ -25,7 +27,7 @@ namespace AINPC.Scripts.Core.Gameplay.UI
             }
         }
 
-        public void AssignIngredient(Interfaces.RawIngredient rawIng)
+        public void AssignIngredient(RawIngredient rawIng)
         {
             if (rawIng == null)
             {
@@ -50,9 +52,14 @@ namespace AINPC.Scripts.Core.Gameplay.UI
         private void ToggleIsSelected()
         {
             IsSelected = !IsSelected;
-            
         }
 
+        public void Reset()
+        {
+            AssignedIngredient = null;
+            slotImage.sprite = null;
+        }
+        
         private void OnDestroy()
         {
             if (btn != null)

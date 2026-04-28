@@ -1,4 +1,5 @@
 using System;
+using AINPC.Scripts.Core.Gameplay.Data;
 using AINPC.Scripts.Core.Gameplay.UI.Handlers;
 using UnityEngine;
 
@@ -9,7 +10,9 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controller
         private IngredientSlot _selectedSlot = null;
         private SelectableRawIngredient _selectedIngredient = null;
 
-        [SerializeField] private PuzzlePanelHandler puzzlePanel = null;
+        [SerializeField] private Transform snackbar;
+
+        [SerializeField] private PuzzlePanelEventHandler puzzlePanelEventHandler = null;
 
         public event Action<Recipe.Recipe> ValidateOnBrew;
 
@@ -25,26 +28,40 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controller
 
         private void AddListeners()
         {
-            puzzlePanel.BrewButtonClicked += BrewButtonClicked;
-            
-            puzzlePanel.SlotSelected += HandleSlotSelected;
-            puzzlePanel.SlotDeselected += HandleSlotDeselected;
+            puzzlePanelEventHandler.BrewButtonClicked += BrewButtonClicked;
 
-            puzzlePanel.IngredientSelected += HandleRawIngSelected;
-            puzzlePanel.IngredientDeselected += HandleIngredientDeselected;
+            puzzlePanelEventHandler.SlotSelected += HandleSlotSelected;
+            puzzlePanelEventHandler.SlotDeselected += HandleSlotDeselected;
+
+            puzzlePanelEventHandler.IngredientSelected += HandleRawIngSelected;
+            puzzlePanelEventHandler.IngredientDeselected += HandleIngredientDeselected;
         }
 
         private void RemoveListeners()
         {
-            puzzlePanel.BrewButtonClicked -= BrewButtonClicked;
-            
-            puzzlePanel.SlotSelected -= HandleSlotSelected;
-            puzzlePanel.SlotDeselected -= HandleSlotDeselected;
+            puzzlePanelEventHandler.BrewButtonClicked -= BrewButtonClicked;
 
-            puzzlePanel.IngredientSelected -= HandleRawIngSelected;
-            puzzlePanel.IngredientDeselected -= HandleIngredientDeselected;
+            puzzlePanelEventHandler.SlotSelected -= HandleSlotSelected;
+            puzzlePanelEventHandler.SlotDeselected -= HandleSlotDeselected;
+
+            puzzlePanelEventHandler.IngredientSelected -= HandleRawIngSelected;
+            puzzlePanelEventHandler.IngredientDeselected -= HandleIngredientDeselected;
         }
-        
+
+        public void ResetAll()
+        {
+            _selectedIngredient?.Deselect();
+            _selectedIngredient = null;
+            _selectedSlot?.Deselect();
+            _selectedSlot = null;
+            puzzlePanelEventHandler.ResetPuzzle();
+        }
+
+        public void LoadPuzzle(PuzzleData data)
+        {
+            puzzlePanelEventHandler.SetupPuzzleData(data);
+        }
+
         private void HandleRawIngSelected(SelectableRawIngredient newIng)
         {
             if (_selectedIngredient)
@@ -122,8 +139,8 @@ namespace AINPC.Scripts.Core.Gameplay.UI.Controller
 
         private void BrewButtonClicked()
         {
-            var userRecipe = new Recipe.Recipe(puzzlePanel.GetRawIngUserInputList());
-            
+            var userRecipe = new Recipe.Recipe(puzzlePanelEventHandler.GetRawIngUserInputList());
+
             ValidateOnBrew?.Invoke(userRecipe);
         }
     }
